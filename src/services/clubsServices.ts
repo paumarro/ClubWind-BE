@@ -1,6 +1,6 @@
 import { findAll, find, remove, update, create } from '../database/methods'
 import { ClubBody, Name } from '../types/interfaces'
-import { Club } from '../database/clubs'
+import { Club } from '../database/models/clubs'
 
 
 

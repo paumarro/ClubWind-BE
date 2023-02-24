@@ -1,4 +1,4 @@
-import Member from '../database/members'
+import Member from '../database/models/members'
 import { findAll, find, create, remove, update } from '../database/methods'
 import { MemberBody } from '../types/interfaces'
 
