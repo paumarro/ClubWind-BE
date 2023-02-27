@@ -37,3 +37,4 @@ export const updateMemberService = async ( id: string, body: MemberBody) => {
 
   return result
 }
+ 
