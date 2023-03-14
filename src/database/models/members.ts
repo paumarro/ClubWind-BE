@@ -51,7 +51,7 @@ const Member = sequelize.define('Member', {
     type: DataTypes.STRING,
     allowNull: true,
   },
-})
+});
 
 Member.sync().then(() => {})
 

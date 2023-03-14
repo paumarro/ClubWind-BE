@@ -2,9 +2,9 @@ import { Router } from 'express'
 import {
   createMemberController,
   deleteMemberController,
-  getAllMembersController as getAllMembersController,
+  getAllMembersController,
   getMemberController,
-  searchAllMembersController as searchAllMembersController,
+  searchAllMembersController,
   updateMemberController
 } from '../controllers/membersController'
 import { validateMember, handleValidationError } from '../validations/validations'

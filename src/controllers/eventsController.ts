@@ -1,9 +1,29 @@
 import { NextFunction, Request, Response } from 'express'
 import {
+  searchAllEventsService,
   createEventService,
   deleteEventService,
   getAllEventsService,
+  getEventService,
+  updateEventService
 } from '../services/eventsServices'
+
+export const searchAllEventsController = async (
+  rq: Request,
+  re: Response,
+  nf: NextFunction
+) => {
+  try {
+  
+    const query = rq.query
+
+    const events = await searchAllEventsService(query)
+
+    return re.status(200).json(events)
+  } catch (error) {
+    re.status(500)
+  }
+}
 
 export const getAllEventsController = async (
   rq: Request,
@@ -11,13 +31,28 @@ export const getAllEventsController = async (
   nf: NextFunction
 ) => {
   try {
-    const results = await getAllEventsService()
+    const events = await getAllEventsService()
 
-    return re.status(200).json(results)
+    return re.status(200).json(events)
   } catch (error) {
     re.status(500)
   }
 }
+
+export const getEventController = async (
+  rq: Request,
+  re: Response,
+  nf: NextFunction
+) => {
+  try {
+    const event = await getEventService(rq.params.id)
+
+    return re.status(201).json(event)
+  } catch (error) {
+    re.status(500)
+  }
+}
+
 
 export const createEventController = async (
   rq: Request,
@@ -42,6 +77,20 @@ export const deleteEventController = async (
     const _id = deleteEventService(rq.params.id)
 
     return re.status(201).json({ msg: 'Event was deleted', _id })
+  } catch (error) {
+    re.status(500)
+  }
+}
+
+export const updateEventController = async (
+  rq: Request,
+  re: Response,
+  nf: NextFunction
+) => {
+  try {
+    const _id = await updateEventService(rq.params.id, rq.body)
+
+    return re.status(201).json({ msg: 'Event was updated', _id })
   } catch (error) {
     re.status(500)
   }

@@ -33,8 +33,8 @@ export const deleteMemberService = async (_id: string) => {
 }
 
 export const updateMemberService = async ( id: string, body: MemberBody) => {
-  const result = update(Member, id, body)
+  const member = update(Member, id, body)
 
-  return result
+  return member
 }
  
