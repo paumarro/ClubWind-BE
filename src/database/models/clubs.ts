@@ -16,30 +16,27 @@ export const Club = sequelize.define('Club', {
   description: {
     type: DataTypes.STRING,
     allowNull: true,
-  },
-  ceated_at: {
-    type: DataTypes.DATE,
-    allowNull: true,
-  },
-  updated_at: {
-    type: DataTypes.DATE,
-    allowNull: true,
   }
 });
 
-//Drawing a one-to-many relationship from Club to Event 
-Club.hasMany(Event, {
-  sourceKey: "id",
-  foreignKey: "clubId",
-  as: "events",
-});
 
+//Drawing a one-to-many relationship from Club to Event 
 Club.hasMany(Image, {
   sourceKey: "id",
   foreignKey: "clubId",
   as: "club"
 });
 
+Image.belongsTo(Club, {
+  targetKey: "id",
+  foreignKey: "clubId",
+  as: "club"  
+});
+
+
+
+
 Club.sync().then(() => {})
 
 export default Club
+

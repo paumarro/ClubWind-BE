@@ -3,7 +3,7 @@ import { sequelize } from '../db'
 import Address from './addresses';
 import Club from './clubs';
 
-const Event = sequelize.define('Event', {
+export const Event = sequelize.define('Event', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -26,11 +26,11 @@ const Event = sequelize.define('Event', {
     allowNull: true,
   },
   start_at: {
-    type: DataTypes.STRING,
+    type: DataTypes.DATE,
     allowNull: true,
   },
   end_at: {
-    type: DataTypes.STRING,
+    type: DataTypes.DATE,
     allowNull: true,
   },
   entry_fee: {
@@ -41,7 +41,7 @@ const Event = sequelize.define('Event', {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
-  viewers_count: {
+  viewer_count: {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
@@ -51,6 +51,7 @@ const Event = sequelize.define('Event', {
   } 
 });
 
+
 //Drawing a one-to-many relationship from Club to Event 
 Event.belongsTo(Club, {
   targetKey: "id",
@@ -58,11 +59,24 @@ Event.belongsTo(Club, {
   as: "club"
 });
 
+Club.hasMany(Event, {
+  sourceKey: "id",
+  foreignKey: "clubId",
+  as: "events",
+});
+
+//Drawing a one-to-many relationship from Address to Event 
 Event.hasOne(Address, {
   sourceKey: "id",
   foreignKey: "eventId",
   as: "event"
 });
+
+Address.belongsTo(Event, {
+  targetKey: "id",
+  foreignKey: "eventId",
+  as: "event"
+})
 
 Event.sync().then(() => {})
 

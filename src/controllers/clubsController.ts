@@ -25,7 +25,6 @@ export const searchAllClubsController = async (
       re.status(500)
     }
   }
-  
 
 export const getAllClubsController = async (
     rq: Request,
@@ -56,7 +55,6 @@ export const getClubController = async (
         re.status(500)
     }
 }
-
 
 export const createClubController = async (
     rq: Request,

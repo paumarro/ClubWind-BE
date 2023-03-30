@@ -17,7 +17,7 @@ export const validateMember = [
     
   body('last_name').isLength({ max: 100 }).isString().optional(),
 
-  body('address').isLength({ max: 400 }).isString().optional(),
+  body('address').isLength({ max: 400 }).isString().optional(), //update to fk
 
   body('date_of_entry').isDate().optional(),
 
@@ -34,4 +34,32 @@ export const validateMember = [
   body('status').isLength({ max: 100 }).isString().optional(),
 
   body('groups_name').isLength({ max: 100 }).isString().optional()
+]
+
+export const validateClub = [
+
+  body('name').isLength({ max: 100 }).isString().optional(),
+    
+  body('description').isLength({ max: 4000 }).isString().optional(),
+
+]
+
+export const validateEvent = [
+
+  body('name').isLength({ max: 100 }).isString().optional(),
+    
+  body('description').isLength({ max: 10000 }).isString().optional(),
+
+  body('is_public').isLength({ max: 400 }).isBoolean().optional(),
+
+  body('date').isDate().optional(),
+
+  body('start_at').isDate().optional(),
+
+  body('ends_at').isDate().optional(),
+
+  body('capacity').isDate().optional(),
+
+  body('viewer_count').isLength({ max: 100 }).isString().optional(),
+
 ]

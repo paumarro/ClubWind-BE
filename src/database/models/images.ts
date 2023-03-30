@@ -27,11 +27,6 @@ export const Image = sequelize.define('Image', {
   }
 });
 
-Image.belongsTo(Club, {
-    targetKey: "id",
-    foreignKey: "clubId",
-    as: "club"  
-  });
 
 Image.sync().then(() => {})
 

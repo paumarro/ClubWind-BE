@@ -7,14 +7,15 @@ import {
   searchAllEventsController,
   updateEventController,
 } from '../controllers/eventsController'
+import { validateEvent } from '../validations/validations'
 
 const eventsRoute: Router = Router()
 
 eventsRoute.get('/search', searchAllEventsController)
 eventsRoute.get('/', getAllEventsController)
 eventsRoute.get('/:id', getEventController)
-eventsRoute.post('/', createEventController)
+eventsRoute.post('/', validateEvent, createEventController)
 eventsRoute.delete('/:id', deleteEventController)
-eventsRoute.put('/:id', updateEventController)
+eventsRoute.put('/:id', validateEvent, updateEventController)
 
 export default eventsRoute

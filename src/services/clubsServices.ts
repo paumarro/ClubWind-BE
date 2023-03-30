@@ -1,23 +1,25 @@
 import { findAll, find, remove, update, create } from '../database/methods'
-import { ClubBody, Name } from '../types/interfaces'
+import { ClubBody } from '../types/interfaces'
 import { Club } from '../database/models/clubs'
 
 
 
 export const searchAllClubsService = async (query: object) => {
-  const results = findAll(Club, query)
+  const clubs = findAll(Club, query)
+
+  return clubs
 }
 
 export const getAllClubsService = async () => {
-  const results = findAll(Club, {})
+  const clubs = findAll(Club, {})
 
-  return results
+  return clubs
 }
 
 export const getClubService = async (_id: string) => {
-  const result = find(Club, _id)
+  const club = find(Club, _id)
 
-  return result
+  return club
 
 }
 
@@ -34,7 +36,7 @@ export const deleteClubService = async (_id: string) => {
 }
 
 export const updateClubService = async ( _id: string, body: ClubBody) => {
-  const result = update(Club, _id, body)
+  const club = update(Club, _id, body)
 
-  return result
+  return club
 }

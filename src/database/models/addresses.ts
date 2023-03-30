@@ -51,11 +51,7 @@ export const Address = sequelize.define('Address', {
     });
 
 
-Address.belongsTo(Event, {
-    targetKey: "id",
-    foreignKey: "eventId",
-    as: "event"
-})
+
 
     
 Address.sync().then(() => {})
