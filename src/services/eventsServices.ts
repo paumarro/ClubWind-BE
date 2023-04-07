@@ -12,6 +12,7 @@ export const searchAllEventsService = async (query: any) => {
 export const getAllEventsService = async () => {
   const events = await findAll(Event, {}, Member, "members")
 
+  console.log(JSON.stringify(events, null, 2))
   return events
 }
 

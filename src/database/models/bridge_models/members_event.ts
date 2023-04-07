@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize'
 import { sequelize } from '../../db'
 
 
-export const Member_Event = sequelize.define('Club', {
+export const Member_Event = sequelize.define('Member_Event', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -11,5 +11,3 @@ export const Member_Event = sequelize.define('Club', {
 });
 
 Member_Event.sync().then(() => {})
-
-export default Member_Event

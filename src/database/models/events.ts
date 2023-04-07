@@ -48,7 +48,7 @@ export const Event = sequelize.define('Event', {
   clubId: {
     type: DataTypes.INTEGER,
     allowNull: true
-  } 
+  }
 });
 
 

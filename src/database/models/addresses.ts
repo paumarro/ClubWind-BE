@@ -50,10 +50,7 @@ export const Address = sequelize.define('Address', {
     }
     });
 
-
-
-
     
 Address.sync().then(() => {})
 
-export default Address
+export default Address 

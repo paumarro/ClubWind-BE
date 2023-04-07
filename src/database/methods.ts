@@ -1,17 +1,21 @@
 //Defining Sequalize Methods for the Services to use.
   //The idea is to abstract the Methods in such a way that they can be implemented for any model.
 
-export const findAll = async (model: any, query: object, join?: any, assoname?: string) => {
+import { sequelize } from "./db";
+
+export const findAll = async (model: any, query: object, join?: any, alias?: string) => {
   try {
-    const results = await model.findAll({ 
+    const options: any = {
       where:
-
         query,
-
-        include: [{model: join, as: assoname, required: false}],
+    };
     
-    });
-
+    if(join){
+      options.include = [{model: join, as: alias, required: false}]
+    }
+    
+    const results = await model.findAll(options);
+ 
     return results;
   } catch (error) {
     console.error("Error finding the models", error);
@@ -70,3 +74,5 @@ export const update = async (model: any, id: string, data: any) => {
     console.error("Error updating the entity", error);
   }
 };
+
+sequelize.sync()
