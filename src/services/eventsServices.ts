@@ -1,15 +1,16 @@
 import Event from '../database/models/events'
 import { findAll, find, create, remove, update  } from '../database/methods'
 import { EventBody } from '../types/interfaces'
+import Member from '../database/models/members'
 
 export const searchAllEventsService = async (query: any) => {
-  const events = findAll(Event, query)
+  const events = findAll(Event, query, Member, "members")
 
   return events
 }
 
 export const getAllEventsService = async () => {
-  const events = await findAll(Event, {})
+  const events = await findAll(Event, {}, Member, "members")
 
   return events
 }

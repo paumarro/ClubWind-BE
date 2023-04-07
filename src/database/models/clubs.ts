@@ -39,4 +39,3 @@ Image.belongsTo(Club, {
 Club.sync().then(() => {})
 
 export default Club
-

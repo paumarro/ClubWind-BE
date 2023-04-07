@@ -1,14 +1,15 @@
 //Defining Sequalize Methods for the Services to use.
   //The idea is to abstract the Methods in such a way that they can be implemented for any model.
 
-export const findAll = async (model: any, query: object) => {
+export const findAll = async (model: any, query: object, join?: any, assoname?: string) => {
   try {
     const results = await model.findAll({ 
       where:
 
-        query
-        
-      
+        query,
+
+        include: [{model: join, as: assoname, required: false}],
+    
     });
 
     return results;
