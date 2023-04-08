@@ -2,12 +2,15 @@ import { DataTypes } from 'sequelize'
 import { sequelize } from '../../db'
 
 
-export const Member_Event = sequelize.define('Member_Event', {
-  id: {
+export const MemberEvent = sequelize.define('MemberEvent', {
+  memberId: {
     type: DataTypes.INTEGER,
-    autoIncrement: true,
     primaryKey: true,
-  }
+  },
+  eventId: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+  },
 });
 
-Member_Event.sync().then(() => {})
+MemberEvent.sync().then(() => {})

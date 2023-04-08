@@ -3,6 +3,7 @@ import { sequelize } from '../db'
 
 import Club from '../models/clubs'
 import Event from '../models/events'
+import { MemberEvent } from './bridge_models/members_event';
 
 
 export const Member = sequelize.define('Member', {
@@ -64,14 +65,14 @@ Club.belongsToMany(Member, {
 });
 
 Member.belongsToMany(Event, {
-  through: "Member_Event",
-  as: "event",
+  through: MemberEvent,
+  as: "events",
   foreignKey: "memberId"
 });
 
 Event.belongsToMany(Member, {
-  through: "Member_Event",
-  as: "member",
+  through: MemberEvent, 
+  as: "members",
   foreignKey: "eventId"
 });
 
