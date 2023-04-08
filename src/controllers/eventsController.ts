@@ -5,7 +5,8 @@ import {
   deleteEventService,
   getAllEventsService,
   getEventService,
-  updateEventService
+  updateEventService,
+  addMemberToEventService
 } from '../services/eventsServices'
 
 export const searchAllEventsController = async (
@@ -91,6 +92,30 @@ export const updateEventController = async (
     const _id = await updateEventService(rq.params.id, rq.body)
 
     return re.status(201).json({ msg: 'Event was updated', _id })
+  } catch (error) {
+    re.status(500)
+  }
+}
+
+
+export const addMemberToEventController = async (
+  rq: Request,
+  re: Response,
+  nf: NextFunction
+) => {
+  try {
+    const { eventId, memberId } = rq.params;
+    console.log('controller check')
+
+    // validate input
+    if (!eventId || !memberId) {
+      return re.status(400).send({ message: 'Invalid input' });
+    }
+
+
+    const result = await addMemberToEventService( eventId, memberId )
+
+    return re.status(201).json({ msg: 'Member was updated', result })
   } catch (error) {
     re.status(500)
   }

@@ -1,7 +1,10 @@
+
 //Defining Sequalize Methods for the Services to use.
   //The idea is to abstract the Methods in such a way that they can be implemented for any model.
 
 import { sequelize } from "./db";
+import Member from "./models/members";
+import Event from "./models/members"
 
 export const findAll = async (model: any, query: object, join?: any, alias?: string) => {
   try {
@@ -74,5 +77,26 @@ export const update = async (model: any, id: string, data: any) => {
     console.error("Error updating the entity", error);
   }
 };
+
+
+export const addMemberToEvent = async (eventId: string, memberId: string) => {
+    try {
+      const event = (await Event.findByPk(eventId)) as any;
+      const member = (await Member.findByPk(memberId)) as any;
+
+      // check if event and member exist
+      if (!event || !member) {
+        throw new Error('Event or member not found');
+      }
+
+      // add member to event  
+      await event.addMember(member);
+
+      return { message: 'Member added to event' };
+    } catch (error) {
+      console.error(error);
+      throw new Error('Internal server error');
+    }
+  };
 
 sequelize.sync()

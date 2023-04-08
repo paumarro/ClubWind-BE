@@ -1,5 +1,5 @@
 import Event from '../database/models/events'
-import { findAll, find, create, remove, update  } from '../database/methods'
+import { findAll, find, create, remove, update, addMemberToEvent  } from '../database/methods'
 import { EventBody } from '../types/interfaces'
 import Member from '../database/models/members'
 
@@ -39,4 +39,17 @@ export const updateEventService = async ( id: string, body: EventBody) => {
 
   return event
 }
- 
+
+export const addMemberToEventService = async (eventId: string, memberId: string) => {
+  try {
+    // call database method
+    console.log('service check')
+    const result = await addMemberToEvent(eventId, memberId);
+    
+
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Internal server error');
+  }
+}

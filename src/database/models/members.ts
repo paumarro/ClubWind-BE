@@ -65,16 +65,15 @@ Club.belongsToMany(Member, {
 
 Member.belongsToMany(Event, {
   through: "Member_Event",
-  as: "events",
+  as: "event",
   foreignKey: "memberId"
 });
 
 Event.belongsToMany(Member, {
   through: "Member_Event",
-  as: "members",
+  as: "member",
   foreignKey: "eventId"
 });
-
 
 Member.sync().then(() => {})
 
