@@ -1,12 +1,12 @@
 import { DataTypes } from 'sequelize'
-import { sequelize } from '../db'
+import { mainDB } from '../db'
 
 import Club from '../models/clubs'
 import Event from '../models/events'
 import { MemberEvent } from './bridge_models/members_event';
 
 
-export const Member = sequelize.define('Member', {
+export const Member = mainDB.define('Member', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,

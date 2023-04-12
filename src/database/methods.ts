@@ -2,7 +2,7 @@
 //Defining Sequalize Methods for the Services to use.
   //The idea is to abstract the Methods in such a way that they can be implemented for any model.
 
-import { sequelize } from "./db";
+import { mainDB } from "./db";
 import { MemberEvent } from "./models/bridge_models/members_event";
 import Member from "./models/members";
 import Event from "./models/members"
@@ -100,4 +100,4 @@ export const addMemberToEvent = async (eventId: string, memberId: string) => {
     }
   };
 
-sequelize.sync()
+mainDB.sync()

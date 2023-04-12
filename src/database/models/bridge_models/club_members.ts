@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize'
-import { sequelize } from '../../db'
+import { mainDB } from '../../db'
 
 
- const Club_Member = sequelize.define('Club_Member', {
+ const Club_Member = mainDB.define('Club_Member', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,

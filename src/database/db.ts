@@ -1,17 +1,23 @@
 import { Sequelize } from 'sequelize'
 
-// instantiate a new Sequelize instance
-export const sequelize = new Sequelize('memberdb', 'root', 'pass', {
+// instantiate a new Sequelize instance for the main data
+export const mainDB = new Sequelize('mainDB', 'root', 'pass', {
   host: 'localhost',
   dialect: 'mysql',
-  logging: false,
-})
+  logging: false
+});
+
+// instantiate a new Sequelize instance for the user data
+export const authDB = new Sequelize({
+  dialect:'sqlite',
+  storage:'./users.sqlite'
+});
+
 
 // test the connection to the database
-// look up promises
 export const establishDBConnection = async () => {
   try {
-    await sequelize.authenticate()
+    await mainDB.authenticate()
     console.log('  ------ MySQL Server started ------\n')
   } catch (error) {
     console.error('Unable to connect to the database:', error)

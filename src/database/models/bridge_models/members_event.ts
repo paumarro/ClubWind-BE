@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize'
-import { sequelize } from '../../db'
+import { mainDB } from '../../db'
 
 
-export const MemberEvent = sequelize.define('MemberEvent', {
+export const MemberEvent = mainDB.define('MemberEvent', {
   memberId: {
     type: DataTypes.INTEGER,
     primaryKey: true,

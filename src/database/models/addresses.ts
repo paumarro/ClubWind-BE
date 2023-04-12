@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize'
-import { sequelize } from '../db'
+import { mainDB } from '../db'
 import Event from './events';
 
-export const Address = sequelize.define('Address', {
+export const Address = mainDB.define('Address', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,

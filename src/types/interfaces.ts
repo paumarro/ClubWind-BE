@@ -29,3 +29,11 @@ export interface ClubBody {
   name: string
   description: string
 }
+
+export interface UserBody {
+  _id: string
+  username: string
+  password: string
+  email: string
+  admin: boolean
+}

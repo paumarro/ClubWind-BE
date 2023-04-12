@@ -1,9 +1,9 @@
 import { DataTypes } from 'sequelize'
-import { sequelize } from '../db'
+import { mainDB } from '../db'
 import Address from './addresses';
 import Club from './clubs';
 
-export const Event = sequelize.define('Event', {
+export const Event = mainDB.define('Event', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
