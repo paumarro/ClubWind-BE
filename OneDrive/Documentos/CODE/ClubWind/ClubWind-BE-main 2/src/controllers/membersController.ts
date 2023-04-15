@@ -3,28 +3,11 @@ import {
   createMemberService,
   deleteMemberService,
   getAllMemberService,
+  getMemberEventsService,
   getMemberService,
   searchAllMemberService as searchAllMembersService,
   updateMemberService,
 } from '../services/membersServices'
-
-export const searchAllMembersController = async (
-  rq: Request,
-  re: Response,
-  nf: NextFunction
-) => {
-  try {
-  
-    const query = rq.query
-
-    const results = await searchAllMembersService(query)
-
-    return re.status(200).json(results)
-  } catch (error) {
-    re.status(500)
-  }
-}
-
 
 export const getAllMembersController = async (
   rq: Request,
@@ -32,9 +15,18 @@ export const getAllMembersController = async (
   nf: NextFunction
 ) => {
   try {
+    
+    if(rq.query){
+    const query = rq.query
+
+    const results = await searchAllMembersService(query)
+
+    return re.status(200).json(results)
+  } else {
     const results = await getAllMemberService()
 
     return re.status(200).json(results)
+  }
   } catch (error) {
     re.status(500)
   }
@@ -48,6 +40,20 @@ export const getMemberController = async (
 ) => {
   try {
     const result = await getMemberService(rq.params.id)
+
+    return re.status(201).json(result)
+  } catch (error) {
+    re.status(500)
+  }
+};
+
+export const getMemberEventsController = async (
+  rq: Request,
+  re: Response,
+  nf: NextFunction
+) => {
+  try {
+    const result = await getMemberEventsService(rq.params.id)
 
     return re.status(201).json(result)
   } catch (error) {

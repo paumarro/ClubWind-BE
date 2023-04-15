@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from "express"
 
 
+
+
 export const isAdmin =  (
     rq: Request,
     re: Response,
     nf: NextFunction 
     ) => {
-        console.log(rq.session.user)
     if (rq.session.user?.isAdmin) {
   
       nf()
@@ -17,3 +18,20 @@ export const isAdmin =  (
     }
     
   }
+
+export const isAuthenticated = async (
+    rq: Request,
+    re: Response,
+    nf: NextFunction 
+    ) => {
+    if (rq.session?.user) {
+      
+      nf()
+    
+    }else{
+      //Redirect to login or different default page
+    }
+    
+  };
+  
+  

@@ -11,16 +11,30 @@ export const findAll = async (model: any, query: object, join?: any, alias?: str
   try {
     const options: any = {
       where:
+  
         query,
     };
-    
-    if(join){
-      options.include = [{model: join, as: alias, required: false}]
-    }
     
     const results = await model.findAll(options);
  
     return results;
+  } catch (error) {
+    console.error("Error finding the models", error);
+  }
+};
+
+
+export const findAndJoin = async (model: any, id: string, join: any, alias?: string) => {
+  try {
+    const result = await model.findByPk(id, {
+      include: [{
+        model: join,
+        as: alias,
+        through: { attributes: []}
+      }]
+    });
+    
+    return result
   } catch (error) {
     console.error("Error finding the models", error);
   }
@@ -85,12 +99,10 @@ export const addMemberToEvent = async (eventId: string, memberId: string) => {
       const event = (await Event.findByPk(eventId)) as any;
       const member = (await Member.findByPk(memberId)) as any;
 
-      // check if event and member exist
       if (!event || !member) {
         throw new Error('Event or member not found');
       }
 
-      // add member to event  
       await MemberEvent.create({ memberId, eventId });
 
       return { message: 'Member added to event' };

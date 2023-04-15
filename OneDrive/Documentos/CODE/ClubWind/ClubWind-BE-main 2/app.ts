@@ -49,22 +49,6 @@ app.use(session({
   cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 } // secure true only works over HTTPS
 }));
 
-const isAuthenticated = async (
-  rq: Request & { session: Session },
-  re: Response,
-  nf: NextFunction 
-  ) => {
-  if (rq.session && rq.session.user) {
-    nf()
-  
-  }else{
-    //Redirect to login or different default page
-  }
-  
-};
-
-
-///////////////////////////////////////////////////////////////////////////////
 
 
 

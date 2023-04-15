@@ -5,18 +5,27 @@ import {
   deleteEventController,
   getAllEventsController,
   getEventController,
-  searchAllEventsController,
+  getEventMembersController,
   updateEventController,
 } from "../controllers/eventsController";
 import { validateEvent } from "../middlewares/validations/validations";
+import { isAdmin } from "../middlewares/session";
 
 const eventsRoute: Router = Router();
 
-eventsRoute.get("/search", searchAllEventsController);
 eventsRoute.get("/", getAllEventsController);
+
 eventsRoute.get("/:id", getEventController);
-eventsRoute.post("/", validateEvent, createEventController);
+
+eventsRoute.post("/",isAdmin, validateEvent, createEventController);
+
 eventsRoute.delete("/:id", deleteEventController);
-eventsRoute.put("/:id", validateEvent, updateEventController);
+
+eventsRoute.put("/:id",isAdmin, validateEvent, updateEventController);
+
+eventsRoute.get("/:id/members", getEventMembersController)
+
+//add validation
 eventsRoute.post("/:eventId/members/:memberId", addMemberToEventController);
+
 export default eventsRoute;
