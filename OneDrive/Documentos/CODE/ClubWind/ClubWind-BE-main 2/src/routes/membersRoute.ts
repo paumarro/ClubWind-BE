@@ -11,17 +11,17 @@ import {
   validateMember,
   handleValidationError,
 } from "../middlewares/validations/validations";
-import { isAdmin } from "../middlewares/session";
+import { isAdmin, isAuthenticated } from "../middlewares/session";
 
 const membersRoute: Router = Router();
 
-membersRoute.get("/", getAllMembersController);
+membersRoute.get("/", isAuthenticated, getAllMembersController);
 
-membersRoute.get("/:id", getMemberController);
+membersRoute.get("/:id", isAuthenticated, getMemberController);
 
 membersRoute.delete("/:id", isAdmin, deleteMemberController);
 
-membersRoute.get("/:id/events", getMemberEventsController)
+membersRoute.get("/:id/events", isAuthenticated, getMemberEventsController)
 
 
 membersRoute.post(

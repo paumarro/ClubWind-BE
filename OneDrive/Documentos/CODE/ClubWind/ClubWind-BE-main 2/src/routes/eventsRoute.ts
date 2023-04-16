@@ -9,23 +9,22 @@ import {
   updateEventController,
 } from "../controllers/eventsController";
 import { validateEvent } from "../middlewares/validations/validations";
-import { isAdmin } from "../middlewares/session";
+import { isAdmin, isAuthenticated } from "../middlewares/session";
 
 const eventsRoute: Router = Router();
 
-eventsRoute.get("/", getAllEventsController);
+eventsRoute.get("/", isAuthenticated, getAllEventsController);
 
-eventsRoute.get("/:id", getEventController);
+eventsRoute.get("/:id", isAuthenticated, getEventController);
 
 eventsRoute.post("/",isAdmin, validateEvent, createEventController);
 
-eventsRoute.delete("/:id", deleteEventController);
+eventsRoute.delete("/:id", isAuthenticated, deleteEventController);
 
 eventsRoute.put("/:id",isAdmin, validateEvent, updateEventController);
 
-eventsRoute.get("/:id/members", getEventMembersController)
+eventsRoute.get("/:id/members", isAuthenticated, getEventMembersController)
 
-//add validation
-eventsRoute.post("/:eventId/members/:memberId", addMemberToEventController);
+eventsRoute.post("/:eventId/members/:memberId", isAuthenticated, addMemberToEventController);
 
 export default eventsRoute;

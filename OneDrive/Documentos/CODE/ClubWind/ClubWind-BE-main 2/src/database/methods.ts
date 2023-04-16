@@ -103,7 +103,7 @@ export const addMemberToEvent = async (eventId: string, memberId: string) => {
         throw new Error('Event or member not found');
       }
 
-      await MemberEvent.create({ memberId, eventId });
+       await MemberEvent.create({ memberId, eventId });
 
       return { message: 'Member added to event' };
     } catch (error) {

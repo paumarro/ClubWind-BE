@@ -13,10 +13,14 @@ import clubsRoute from './src/routes/clubsRoute'
 import { limiter } from './src/middlewares/rateLimiter'
 import { sanitizeHeadersQuerysAndParams, sanitizeBodys } from './src/middlewares/sanitisation'
 import { userRoute } from './src/routes/userRoute'
+import passport from 'passport';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+
 
 const session = require("express-session")
 
 const app: Express = express()
+
 
 establishDBConnection()
 
@@ -34,7 +38,7 @@ app.use(
 );
 
 
-//Authentication & Authorisation///////////////////////////////////////////
+//Authentication & Authorisation////////////////////////////////////////////////////////
 
 declare module 'express-session' {
   export interface SessionData {
@@ -49,7 +53,21 @@ app.use(session({
   cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 } // secure true only works over HTTPS
 }));
 
+//Oauth////////////////
+app.use(passport.initialize());
 
+// Configure the Google OAuth2 strategy
+passport.use(new GoogleStrategy({
+    clientID: '158455817017-66oudddoqg8r4cijlrus7krrcnmcvecn.apps.googleusercontent.com',
+    clientSecret: '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',
+    callbackURL: 'http://localhost:3000/auth/google/callback',
+},
+(accessToken, refreshToken, profile, done) => {
+    // Find or create the user in your database using Sequelize
+    // and call done() with the user object.
+}));
+
+//////////////////////////////////////////////////////////////////////////////////////
 
 
 app.use('/events', eventsRoute)

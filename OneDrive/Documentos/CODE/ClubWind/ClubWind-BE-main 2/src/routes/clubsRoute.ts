@@ -8,14 +8,15 @@ import {
   updateClubController,
 } from "../controllers/clubsController";
 import { validateClub } from "../middlewares/validations/validations";
+import { isAuthenticated } from "../middlewares/session";
 
 const clubsRoute: Router = Router();
 
-clubsRoute.get("/search", searchAllClubsController);
-clubsRoute.get("/", getAllClubsController);
-clubsRoute.get("/:id", getClubController);
-clubsRoute.post("/", validateClub, createClubController);
-clubsRoute.delete("/:id", deleteClubController);
-clubsRoute.put("/:id", validateClub, updateClubController);
+clubsRoute.get("/search", isAuthenticated, searchAllClubsController);
+clubsRoute.get("/", isAuthenticated, getAllClubsController);
+clubsRoute.get("/:id", isAuthenticated, getClubController);
+clubsRoute.post("/", isAuthenticated, validateClub, createClubController);
+clubsRoute.delete("/:id", isAuthenticated, deleteClubController);
+clubsRoute.put("/:id", isAuthenticated, validateClub, updateClubController);
 
 export default clubsRoute;

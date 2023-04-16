@@ -29,7 +29,7 @@ export const isAuthenticated = async (
       nf()
     
     }else{
-      //Redirect to login or different default page
+      re.status(401).json("Please log in")
     }
     
   };
