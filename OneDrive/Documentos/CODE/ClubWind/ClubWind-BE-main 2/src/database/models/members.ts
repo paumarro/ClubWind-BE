@@ -4,7 +4,7 @@ import { sequalize } from '../db'
 import Club from '../models/clubs'
 import Event from '../models/events'
 import { MemberEvent } from './bridge_models/members_event';
-import { User } from './users';
+
 
 
 export const Member = sequalize.define('Member', {

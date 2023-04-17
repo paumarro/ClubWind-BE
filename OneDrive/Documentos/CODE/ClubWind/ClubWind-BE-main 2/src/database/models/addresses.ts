@@ -36,7 +36,7 @@ export const Address = sequalize.define('Address', {
         type: DataTypes.STRING,
         allowNull: true
       },
-    created_at: {
+    created_at: { 
         type: DataTypes.DATE,
         allowNull: true
       },
