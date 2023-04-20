@@ -11,26 +11,12 @@ export const Club = sequalize.define('Club', {
   },
   name: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: false,
   },
   description: {
-    type: DataTypes.STRING,
-    allowNull: true,
+    type: DataTypes.TEXT,
+    allowNull: false,
   }
-});
-
-
-//Drawing a one-to-many relationship from Club to Event 
-Club.hasMany(Image, {
-  sourceKey: "id",
-  foreignKey: "clubId",
-  as: "club"
-});
-
-Image.belongsTo(Club, {
-  targetKey: "id",
-  foreignKey: "clubId",
-  as: "club"  
 });
 
 

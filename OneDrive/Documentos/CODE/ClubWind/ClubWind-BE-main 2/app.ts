@@ -53,27 +53,9 @@ app.use(session({
   cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 } // secure true only works over HTTPS
 }));
 
-//Oauth////////////////
-app.use(passport.initialize());
-
-// Configure the Google OAuth2 strategy
-passport.use(new GoogleStrategy({
-    clientID: '158455817017-66oudddoqg8r4cijlrus7krrcnmcvecn.apps.googleusercontent.com',
-    clientSecret: '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',
-    callbackURL: 'http://localhost:3000/auth/google/callback',
-},
-(accessToken, refreshToken, profile, done) => {
-    // Find or create the user in your database using Sequelize
-    // and call done() with the user object.
-}));
-
-//////////////////////////////////////////////////////////////////////////////////////
-
-
 app.use('/events', eventsRoute)
 app.use('/members', membersRoute)
 app.use('/clubs', clubsRoute)
-
 app.use('/users', userRoute)
 
 export default app 

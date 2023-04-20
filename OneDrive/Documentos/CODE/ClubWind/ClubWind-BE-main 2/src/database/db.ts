@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize'
 
 // instantiate a new Sequelize instance for the main data
-export const sequalize = new Sequelize('memberdb', 'root', 'pass', {
+export const sequalize: Sequelize = new Sequelize('clubWindDB', 'root', 'pass', {
   host: 'localhost',
   dialect: 'mysql',
   logging: false

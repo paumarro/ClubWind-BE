@@ -3,7 +3,10 @@ import { sequalize } from '../db'
 
 import Club from '../models/clubs'
 import Event from '../models/events'
+import Image from '../models/images'
 import { MemberEvent } from './bridge_models/members_event';
+import Address from './addresses'
+import { Role } from './roles'
 
 
 
@@ -15,43 +18,55 @@ export const Member = sequalize.define('Member', {
   },
   first_name: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: false,
   },
   last_name: {
     type: DataTypes.STRING,
-    allowNull: true,
-  },
-  address: {                     //update to fk
-    type: DataTypes.STRING,
-    allowNull: true
+    allowNull: false,
   },
   date_of_entry: {
     type: DataTypes.DATE,
-    allowNull: true,
+    allowNull: false,
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: false, 
   },
   gender: {
-    type: DataTypes.STRING,
-    allowNull: true,
+    type: DataTypes.CHAR(1),
+    allowNull: false,
   },
   phone: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: false,
   },
   birthday: {
     type: DataTypes.DATE,
     allowNull: true,
   },
-  role: {
-    type: DataTypes.STRING,
+  addressId: {                    
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  roleId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  clubId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  imageId: {
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
-  status: {
-    type: DataTypes.STRING,
-    allowNull: true,
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
   }
 });
 
@@ -77,6 +92,39 @@ Event.belongsToMany(Member, {
   as: "members",
   foreignKey: "eventId"
 });
+
+Member.hasOne(Image, {
+  sourceKey: "id",
+  foreignKey: "memberId"
+});
+
+Image.belongsTo(Member, {
+  targetKey: "id",
+  foreignKey: "memberId",
+  as: "member"  
+});
+
+Address.hasMany(Member, {
+  sourceKey: "id",
+  foreignKey: "addressId",
+  as: "members"
+})
+
+Member.belongsTo(Address, {
+  targetKey: "id",
+  foreignKey: "addressId"
+})
+
+Role.hasMany(Member, {
+  sourceKey: "id",
+  foreignKey: "roleId",
+  as: "members"
+})
+
+Member.belongsTo(Role, {
+  targetKey: "id",
+  foreignKey: "roleId"
+})
 
 Member.sync().then(() => {})
 

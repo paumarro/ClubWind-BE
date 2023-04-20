@@ -12,7 +12,6 @@ import {
 export const getAllMembersController = async (
   rq: Request,
   re: Response,
-  nf: NextFunction
 ) => {
   try {
     
@@ -36,7 +35,6 @@ export const getAllMembersController = async (
 export const getMemberController = async (
   rq: Request,
   re: Response,
-  nf: NextFunction
 ) => {
   try {
     const result = await getMemberService(rq.params.id)
@@ -50,7 +48,6 @@ export const getMemberController = async (
 export const getMemberEventsController = async (
   rq: Request,
   re: Response,
-  nf: NextFunction
 ) => {
   try {
     const result = await getMemberEventsService(rq.params.id)
@@ -64,7 +61,6 @@ export const getMemberEventsController = async (
 export const createMemberController = async (
   rq: Request,
   re: Response,
-  nf: NextFunction
 ) => {
   
   try {
@@ -72,14 +68,14 @@ export const createMemberController = async (
 
     return re.status(201).json({ msg: 'Member was created', _id })
   } catch (error) {
-    re.status(500)
+    console.error(error)
+    return re.status(500).json({ msg: 'Internal Server Error' })
   }
 };
 
 export const deleteMemberController = async (
   rq: Request,
   re: Response,
-  nf: NextFunction
 ) => {
   try {
     const _id = await deleteMemberService(rq.params.id)
@@ -93,7 +89,6 @@ export const deleteMemberController = async (
 export const updateMemberController = async (
   rq: Request,
   re: Response,
-  nf: NextFunction
 ) => {
   try {
     const _id = await updateMemberService(rq.params.id, rq.body)

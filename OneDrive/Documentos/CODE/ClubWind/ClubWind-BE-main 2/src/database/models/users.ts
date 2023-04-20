@@ -24,11 +24,19 @@ export const User = sequalize.define('User', {
     memberId: {
       type: DataTypes.INTEGER,
       allowNull: true
+    }, 
+    createdAt: {
+      type: DataTypes.DATE, 
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW 
     }
   });
 
   
-Member.hasOne(User, { foreignKey: 'memberId' });
-User.belongsTo(Member, { foreignKey: 'memberId' });
+  Member.hasOne(User, { foreignKey: 'memberId' });
+  User.belongsTo(Member, { foreignKey: 'memberId' });
 
 User.sync().then(() => {}) 

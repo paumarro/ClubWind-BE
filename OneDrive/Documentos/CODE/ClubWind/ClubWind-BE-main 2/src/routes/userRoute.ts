@@ -7,7 +7,7 @@ import {
   handleValidationError,
   validateUserLogin,
   validateUserRegistration,
-} from "../middlewares/validations/validations";
+} from "../middlewares/validations";
 
 export const userRoute: Router = Router();
 
@@ -17,6 +17,7 @@ userRoute.post(
   handleValidationError,
   loginController
 );
+
 userRoute.post(
   "/register",
   validateUserRegistration,

@@ -1,40 +1,72 @@
-
 //Defining Sequalize Methods for the Services to use.
-  //The idea is to abstract the Methods in such a way that they can be implemented for any model.
+//The idea is to abstract the Methods in such a way that they can be implemented for any model.
 
 import { sequalize } from "./db";
 import { MemberEvent } from "./models/bridge_models/members_event";
 import Member from "./models/members";
-import Event from "./models/members"
+import Event from "./models/members";
 
-export const findAll = async (model: any, query: object, join?: any, alias?: string) => {
+export const findAll = async (
+  model: any,
+  query: object,
+  join?: any,
+  alias?: string
+) => {
   try {
     const options: any = {
-      where:
-  
-        query,
+      where: query,
     };
-    
+
     const results = await model.findAll(options);
- 
+
     return results;
   } catch (error) {
     console.error("Error finding the models", error);
   }
 };
 
+export const findAndJoin3 = async (
+  model: any,
+  id: string,
+  join: any,
+  join2: any,
+  join3: any,
 
-export const findAndJoin = async (model: any, id: string, join: any, alias?: string) => {
+) => {
   try {
     const result = await model.findByPk(id, {
-      include: [{
-        model: join,
-        as: alias,
-        through: { attributes: []}
-      }]
+      include: [
+        { model: join },
+        { model: join2 },
+        { model: join3 },
+      ],
     });
     
-    return result
+    return result;
+  } catch (error) {
+    console.error("Error finding the models", error);
+  }
+};
+
+
+export const findAndJoin= async (
+  model: any,
+  id: string,
+  join: any,
+  alias?: string
+) => {
+  try {
+    const result = await model.findByPk(id, {
+      include: [
+        {
+          model: join,
+          as: alias,
+          through: { attributes: [] },
+        },
+      ],
+    });
+
+    return result;
   } catch (error) {
     console.error("Error finding the models", error);
   }
@@ -42,12 +74,10 @@ export const findAndJoin = async (model: any, id: string, join: any, alias?: str
 
 export const find = async (model: any, id: string) => {
   try {
-    const results = await model.findOne(
-      {where: {
-
-        id: id
-
-      }
+    const results = await model.findOne({
+      where: {
+        id: id,
+      },
     });
 
     return results;
@@ -68,23 +98,23 @@ export const create = async (model: any, data: object) => {
 
 export const remove = async (model: any, id: string) => {
   try {
-     await model.destroy({
+    await model.destroy({
       where: {
-        id
-      }
+        id,
+      },
     });
-   
   } catch (error) {
     console.error("Error deleting the entity", error);
   }
 };
 
+
 export const update = async (model: any, id: string, data: any) => {
   try {
     const results = await model.update(data, {
       where: {
-        id
-      }
+        id,
+      },
     });
 
     return results;
@@ -95,21 +125,21 @@ export const update = async (model: any, id: string, data: any) => {
 
 
 export const addMemberToEvent = async (eventId: string, memberId: string) => {
-    try {
-      const event = (await Event.findByPk(eventId)) as any;
-      const member = (await Member.findByPk(memberId)) as any;
+  try {
+    const event = (await Event.findByPk(eventId)) as any;
+    const member = (await Member.findByPk(memberId)) as any;
 
-      if (!event || !member) {
-        throw new Error('Event or member not found');
-      }
-
-       await MemberEvent.create({ memberId, eventId });
-
-      return { message: 'Member added to event' };
-    } catch (error) {
-      console.error(error);
-      throw new Error('Internal server error');
+    if (!event || !member) {
+      throw new Error("Event or member not found");
     }
-  };
 
-sequalize.sync()
+    await MemberEvent.create({ memberId, eventId });
+
+    return { message: "Member added to event" };
+  } catch (error) {
+    console.error(error);
+    throw new Error("Internal server error");
+  }
+};
+
+sequalize.sync();

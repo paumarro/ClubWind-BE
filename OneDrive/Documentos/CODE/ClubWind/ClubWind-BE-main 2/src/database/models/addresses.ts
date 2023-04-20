@@ -9,45 +9,29 @@ export const Address = sequalize.define('Address', {
         primaryKey: true,
       },
     post_code: {
-        type: DataTypes.INTEGER,
-        allowNull: true
+        type: DataTypes.STRING,
+        allowNull: false
       },
     country: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: false
       },
     street_name: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: false
       },
     street_number: {
         type: DataTypes.INTEGER,
-        allowNull: true
+        allowNull: false
       },
     floor: {
-        type: DataTypes.INTEGER,
-        allowNull: true
+        type: DataTypes.STRING,
+        allowNull: false
     },
     apartment: {
-        type: DataTypes.INTEGER,
-        allowNull: true
-      },
-    description: {
         type: DataTypes.STRING,
-        allowNull: true
-      },
-    created_at: { 
-        type: DataTypes.DATE,
-        allowNull: true
-      },
-    updated_at: {
-        type: DataTypes.DATE,
-        allowNull: true
-      },
-    eventId: {
-        type: DataTypes.INTEGER,
-        allowNull: true
-    }
+        allowNull: false
+      }
     });
 
     

@@ -12,16 +12,17 @@ import { EventBody } from '../src/types/interfaces';
   
   // Set up a mock Event object for testing purposes
   const testEvent: EventBody = {
-    _id: '1',
-  name: 'Bowling',
-  description: 'Fun in Mitte.',
-  is_public: true,
-  date: new Date("2019-01-16"),
-  start_at: new Date("2019-01-16"),
-  ends_at: new Date("2019-01-16"),
-  entry_fee: 99,
-  capacity: 98,
-  viewer_count: 97,
+    _id: 0,
+    name: 'Bowling',
+    description: 'Fun in Mitte.',
+    is_public: true,
+    date: new Date("2019-01-16"),
+    start_at: new Date("2019-01-16"),
+    ends_at: new Date("2019-01-16"),
+    entry_fee: 99,
+    capacity: 98,
+    clubId: 0,
+    addressId: 0
   };
   
   // Mock the Event model methods for testing purposes
@@ -88,5 +89,5 @@ import { EventBody } from '../src/types/interfaces';
       const id = '1';
       const updatedEvent = await updateEventService(id, testEvent);
       expect(updatedEvent).toEqual(testEvent);
-    });
+    })
   });

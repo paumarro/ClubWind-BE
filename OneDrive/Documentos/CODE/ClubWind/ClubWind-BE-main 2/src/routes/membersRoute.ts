@@ -5,12 +5,12 @@ import {
   getAllMembersController,
   getMemberController,
   updateMemberController,
-  getMemberEventsController
+  getMemberEventsController,
 } from "../controllers/membersController";
 import {
   validateMember,
   handleValidationError,
-} from "../middlewares/validations/validations";
+} from "../middlewares/validations";
 import { isAdmin, isAuthenticated } from "../middlewares/session";
 
 const membersRoute: Router = Router();
@@ -21,8 +21,7 @@ membersRoute.get("/:id", isAuthenticated, getMemberController);
 
 membersRoute.delete("/:id", isAdmin, deleteMemberController);
 
-membersRoute.get("/:id/events", isAuthenticated, getMemberEventsController)
-
+membersRoute.get("/:id/events", isAuthenticated, getMemberEventsController);
 
 membersRoute.post(
   "/",

@@ -7,7 +7,7 @@ import {
   searchAllClubsController,
   updateClubController,
 } from "../controllers/clubsController";
-import { validateClub } from "../middlewares/validations/validations";
+import { validateClub } from "../middlewares/validations";
 import { isAuthenticated } from "../middlewares/session";
 
 const clubsRoute: Router = Router();

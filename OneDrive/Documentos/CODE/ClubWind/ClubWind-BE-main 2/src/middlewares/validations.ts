@@ -14,36 +14,50 @@ export const handleValidationError = (req: Request, res: Response, nf: NextFunct
 
 export const validateMember = [
 
-  body('first_name').isLength({ max: 100 }).isString().optional(),
+  body('first_name').isLength({ max: 100 }).isString().notEmpty(),
     
-  body('last_name').isLength({ max: 100 }).isString().optional(),
+  body('last_name').isLength({ max: 100 }).isString().notEmpty(),
 
-  body('address').isLength({ max: 400 }).isString().optional(), //update to fk
+  body('date_of_entry').isDate().notEmpty(),
 
-  body('date_of_entry').isDate().optional(),
+  body('email').isEmail().normalizeEmail().notEmpty(),
 
-  body('email').isEmail().normalizeEmail().optional(),
+  body('gender').isLength({ max: 1 }).isString().notEmpty(),
 
-  body('gender').isLength({ max: 100 }).isString().optional(),
+  body('phone').isMobilePhone("any").notEmpty(), 
 
-  body('phone').isMobilePhone('de-DE').optional(), //change to all region-codes
+  body('birthday').isDate().notEmpty(),
 
-  body('birthday').isDate().optional(),
+  body('address.country').notEmpty().notEmpty(),
 
-  body('role').isLength({ max: 100 }).isString().optional(),
+  body('address.post_code').isLength({ max: 100 }).isString().notEmpty(),
 
-  body('status').isLength({ max: 100 }).isString().optional(),
+  body('address.street_name').isLength({ max: 100 }).isString().notEmpty(),
 
-  body('groups_name').isLength({ max: 100 }).isString().optional()
-]
+  body('address.street_number').isNumeric().notEmpty(),
 
+  body('address.floor').isLength({ max: 100}).isString(),
+
+  body('address.apartment').isLength({ max: 100}).isString(),
+
+  body('image.name').isLength({ max: 100 }).isString().notEmpty(),
+
+  body('image.description').isLength({ max: 300 }).isString().notEmpty(),
+
+  body('image.type').isLength({ max: 10 }).isString().notEmpty(),
+
+  body('image.url').isLength({ max: 1000 }).isURL().notEmpty(),
+
+];
+
+ 
 export const validateClub = [
 
   body('name').isLength({ max: 100 }).isString().optional(),
     
   body('description').isLength({ max: 4000 }).isString().optional(),
 
-]
+];
 
 export const validateEvent = [
 
@@ -59,11 +73,11 @@ export const validateEvent = [
 
   body('ends_at').isDate().optional(),
 
-  body('capacity').isDate().optional(),
+  body('capacity').isNumeric().optional(),
 
   body('viewer_count').isLength({ max: 100 }).isString().optional(),
 
-]
+];
 
 
 

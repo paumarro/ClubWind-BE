@@ -19,11 +19,13 @@ export const loginService = async (username: string, password: string): Promise<
       return { error: true, status: 401, msg: "Invalid credentials" };
     }
 
-    const match = bcrypt.compareSync(password, user.password);
+    const match = await bcrypt.compare(password, user.password);
 
     if (!match) {
-      return { error: true, status: 401, msg: "Invalid credentials" };
-    }
+      console.log(user.password)
+      console.log(password)
+      return { error: true, status: 401, msg: "Invalid credentialsS" };
+    };
 
     return { error: false, user: user, msg: "Success" };
   } catch (err) {
@@ -33,12 +35,14 @@ export const loginService = async (username: string, password: string): Promise<
 };
 
 
+//Fix error handeling in try block
 interface RegisterUserProps {
   username: string;
   password: string;
   isAdmin: boolean;
 }
 
+//make the username linked to the Member.email, without it needing to be the same value to remove redundncy
 export const registerService = async ({ username, password, isAdmin }: RegisterUserProps) => {
   try {
     if (!password) {
@@ -48,9 +52,9 @@ export const registerService = async ({ username, password, isAdmin }: RegisterU
     const member: any = await Member.findOne({ where: { email: username } });
     let user: any = await User.findOne({ where: { username: username } });
 
-    if (isAdmin && member.role !== "manager") {
+    if (isAdmin && member.roleId !== 3) {
       throw new Error('Cannot set isAdmin to true');
-    }
+    };
 
     if (!user && member && password) {
       const salt = await bcrypt.genSalt(10);
@@ -61,41 +65,12 @@ export const registerService = async ({ username, password, isAdmin }: RegisterU
     if (user && member) {
       throw new Error('This email address is already registered');
     }
+    if (!member) {
+      throw new Error('Invalid credentials');
+    }
   } catch (error) {
     throw new Error('Registration not possible');
   }
-}
+};
 
 
-
-export const searchAllUserService = async (query: any) => {
-    const users = findAll(User, query, Event, "events")
-  
-    return users
-  }
-  
-  export const getAllUserService = async () => {
-    const users = findAll(User, {}, Event, "events")
-  
-    return users
-  }
-  
-  export const getUserService = async ( _id: string) => {
-    const user = find(User, _id)
-  
-    return user
-  }
-  
-  
-  export const deleteUserService = async (_id: string) => {
-    remove(User, _id)
-  
-    return _id
-  }
-  
-  export const updateUserService = async ( id: string, body: UserBody) => {
-    const user = update(User, id, body)
-  
-    return user
-  }
-   
