@@ -1,23 +1,44 @@
-import { Router } from 'express'
-import {
+import { Router } from "express";
+import MemberController, {
   createMemberController,
   deleteMemberController,
   getAllMembersController,
   getMemberController,
-  searchAllMembersController,
-  updateMemberController
-} from '../controllers/membersController'
-import { validateMember, handleValidationError } from '../validations/validations'
+  getMemberEventsController,
+} from "../controllers/membersController";
+import {
+  validateMember,
+  handleValidationError,
+} from "../middlewares/validations";
+import { isAdmin, isAuthenticated } from "../middlewares/session";
+
+const memberController = new MemberController();
 
 
+const membersRoute: Router = Router();
 
-const membersRoute: Router = Router()
+membersRoute.get("/", isAuthenticated, getAllMembersController);
 
-membersRoute.get('/search', searchAllMembersController)
-membersRoute.get('/', getAllMembersController)
-membersRoute.get('/:id', getMemberController)
-membersRoute.post('/', validateMember, handleValidationError, createMemberController)
-membersRoute.delete('/:id', deleteMemberController)
-membersRoute.put('/:id', validateMember, handleValidationError, updateMemberController)
+membersRoute.get("/:id", isAuthenticated, getMemberController);
 
-export default membersRoute
+membersRoute.delete("/:id", isAdmin, deleteMemberController);
+
+membersRoute.get("/:id/events", isAuthenticated, getMemberEventsController);
+
+membersRoute.post(
+  "/",
+  isAdmin,
+  validateMember,
+  handleValidationError,
+  createMemberController
+);
+
+membersRoute.put(
+  "/:id",
+  isAdmin,
+  validateMember,
+  handleValidationError,
+  memberController.update
+);
+ 
+export default membersRoute;

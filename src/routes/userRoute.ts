@@ -1,7 +1,26 @@
-import { Router } from 'express'
-import { loginController } from '../controllers/userController'; 
+import { Router } from "express";
+import {
+  loginController,
+  registerController,
+} from "../controllers/userController";
+import {
+  handleValidationError,
+  validateUserLogin,
+  validateUserRegistration,
+} from "../middlewares/validations";
 
-export const userRoute: Router = Router()
+export const userRoute: Router = Router();
 
-userRoute.post('/login', loginController);
-userRoute.post('/register', registerController);
+userRoute.post(
+  "/login",
+  validateUserLogin,
+  handleValidationError,
+  loginController
+);
+
+userRoute.post(
+  "/register",
+  validateUserRegistration,
+  handleValidationError,
+  registerController
+);

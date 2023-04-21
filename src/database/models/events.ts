@@ -1,9 +1,9 @@
 import { DataTypes } from 'sequelize'
-import { mainDB } from '../db'
+import { sequalize } from '../db'
 import Address from './addresses';
 import Club from './clubs';
 
-export const Event = mainDB.define('Event', {
+export const Event = sequalize.define('Event', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -11,23 +11,23 @@ export const Event = mainDB.define('Event', {
   },
   name: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: false,
   },
   description: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: true,
   },
   is_public: {
     type: DataTypes.BOOLEAN,
-    allowNull: true,
+    allowNull: false,
   },
   date: {
     type: DataTypes.DATE,
-    allowNull: true,
+    allowNull: false,
   },
   start_at: {
     type: DataTypes.DATE,
-    allowNull: true,
+    allowNull: false,
   },
   end_at: {
     type: DataTypes.DATE,
@@ -41,13 +41,13 @@ export const Event = mainDB.define('Event', {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
-  viewer_count: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-  },
   clubId: {
     type: DataTypes.INTEGER,
-    allowNull: true
+    allowNull: false
+  },
+  addressId:{
+    type: DataTypes.INTEGER,
+    allowNull: false
   }
 });
 
@@ -66,16 +66,16 @@ Club.hasMany(Event, {
 });
 
 //Drawing a one-to-many relationship from Address to Event 
-Event.hasOne(Address, {
+Address.hasOne(Event, {
   sourceKey: "id",
   foreignKey: "eventId",
   as: "event"
 });
 
-Address.belongsTo(Event, {
+Event.belongsTo(Address, {
   targetKey: "id",
   foreignKey: "eventId",
-  as: "event"
+  as: "address"
 })
 
 Event.sync().then(() => {})

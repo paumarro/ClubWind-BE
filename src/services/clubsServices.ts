@@ -33,10 +33,10 @@ export const deleteClubService = async (_id: string) => {
   remove(Club, _id)
 
   return _id
-}
+};
 
 export const updateClubService = async ( _id: string, body: ClubBody) => {
   const club = update(Club, _id, body)
 
   return club
-}
+};

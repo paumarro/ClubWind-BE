@@ -1,9 +1,9 @@
 import { DataTypes } from 'sequelize'
-import { mainDB } from '../db'
+import { sequalize } from '../db'
 import Event from './events'
 import Image from './images';
 
-export const Club = mainDB.define('Club', {
+export const Club = sequalize.define('Club', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -11,26 +11,12 @@ export const Club = mainDB.define('Club', {
   },
   name: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: false,
   },
   description: {
-    type: DataTypes.STRING,
-    allowNull: true,
+    type: DataTypes.TEXT,
+    allowNull: false,
   }
-});
-
-
-//Drawing a one-to-many relationship from Club to Event 
-Club.hasMany(Image, {
-  sourceKey: "id",
-  foreignKey: "clubId",
-  as: "club"
-});
-
-Image.belongsTo(Club, {
-  targetKey: "id",
-  foreignKey: "clubId",
-  as: "club"  
 });
 
 

@@ -1,5 +1,31 @@
+export interface FullMemberBody {
+  first_name: string
+  last_name: string
+  date_of_entry: Date
+  email: string
+  gender: string
+  phone: string
+  birthday: string
+  address: {
+    post_code: string
+    country: string
+    street_name: string
+    street_number: number
+    floor?: string
+    apartment?: string
+  };
+  image: {
+    name?: string
+    description?: Text
+    url: string
+    type?: string
+  };
+  roleId: number,
+  clubId: number
+};
+
 export interface MemberBody {
-  _id: string
+  _id: number
   first_name: string
   last_name: string
   date_of_entry: Date
@@ -7,12 +33,13 @@ export interface MemberBody {
   gender: string
   phone: string
   birthdate: string
-  role: string
-  status: string
+  addressId: number
+  roleId: number
+  clubId: number
 }
 
 export interface EventBody {
-  _id: string
+  _id: number
   name: string
   description: string
   is_public: boolean
@@ -21,19 +48,39 @@ export interface EventBody {
   ends_at: Date
   entry_fee: number
   capacity: number
-  viewer_count: number
+  clubId: number
+  addressId: number
 }
 
 export interface ClubBody {
-  _id: string
+  _id: number
   name: string
   description: string
 }
 
 export interface UserBody {
-  _id: string
+  _id: number
   username: string
   password: string
-  email: string
-  admin: boolean
+  isAdmin: boolean
+  memberId: number
 }
+
+export interface AddressBody {
+  _id: number
+  post_code: string
+  country: string
+  street_name: string
+  street_number: number
+  floor?: string
+  apartment?: string
+}
+
+export interface ImageBody {
+  _id: number
+  name?: string
+  description?: Text
+  url: string
+  type?: string
+}
+
