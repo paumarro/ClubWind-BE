@@ -21,6 +21,7 @@ jobs:
 
     - uses: actions/checkout@v3
     - name: Build & Push the Docker image
-      run: docker build . --file Dockerfile --tag paumarro/clubwind-be:latest
-      run: docker push paumarro/clubwind-be:latest
-    
+      run: |
+        docker build . --file Dockerfile --tag paumarro/clubwind-be:latest
+        docker push paumarro/clubwind-be:latest
+      
