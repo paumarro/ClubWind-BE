@@ -1,9 +1,10 @@
 {
   "name": "clubwind-node-ts-be",
   "scripts": {
-    "start": "tsc && node build/server.js",
+    "start": "node build/server.js",
     "dev": "nodemon --ext js,ts,json server.ts",
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc"
   },
   "version": "1.0.0",
   "main": "server.ts",
