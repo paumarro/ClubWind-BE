@@ -21,7 +21,7 @@ const membersRoute: Router = Router();
 
 membersRoute.get("/", isAuthenticated, getAllMembersController);
 
-membersRoute.get("/:id", isAuthenticated, getMemberController);
+membersRoute.get("/:id", getMemberController);
 
 membersRoute.delete("/:id", isAdmin, deleteMemberController);
 
