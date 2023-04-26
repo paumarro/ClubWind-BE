@@ -108,17 +108,14 @@ export const addMemberToEventController = async (
 ) => {
   try {
     const { eventId, memberId } = rq.params;
-    console.log('controller check')
 
-    // validate input
     if (!eventId || !memberId) {
       return re.status(400).send({ message: 'Invalid input' });
     }
 
-
     const result = await addMemberToEventService( eventId, memberId )
 
-    return re.status(201).json({ msg: 'Member was updated', result })
+    return re.status(201).json({ msg: 'Member was added to Event!', result })
   } catch (error) {
     re.status(500)
   }

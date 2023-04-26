@@ -16,9 +16,32 @@ export const Club = sequalize.define('Club', {
   description: {
     type: DataTypes.TEXT,
     allowNull: false,
+  },
+  imageId: {
+    type:DataTypes.INTEGER,
+    allowNull: true
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
+  },
+  updatedAt: { 
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
   }
+}); 
+
+Club.belongsTo(Image, {
+  targetKey: "id",
+  foreignKey: "imageId",
+  as: "image"
 });
 
+Image.hasOne(Club, {
+  sourceKey: "id", 
+  foreignKey: "imageId",
+  as: "club"  
+});
 
 
 

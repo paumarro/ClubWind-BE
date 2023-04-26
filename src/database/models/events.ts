@@ -2,6 +2,7 @@ import { DataTypes } from 'sequelize'
 import { sequalize } from '../db'
 import Address from './addresses';
 import Club from './clubs';
+import Image from './images';
 
 export const Event = sequalize.define('Event', {
   id: {
@@ -19,10 +20,6 @@ export const Event = sequalize.define('Event', {
   },
   is_public: {
     type: DataTypes.BOOLEAN,
-    allowNull: false,
-  },
-  date: {
-    type: DataTypes.DATE,
     allowNull: false,
   },
   start_at: {
@@ -43,11 +40,23 @@ export const Event = sequalize.define('Event', {
   },
   clubId: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   addressId:{
     type: DataTypes.INTEGER,
     allowNull: false
+  },
+  imageId:{
+    type: DataTypes.INTEGER,
+    allowNull: true
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW 
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
   }
 });
 
@@ -57,7 +66,7 @@ Event.belongsTo(Club, {
   targetKey: "id",
   foreignKey: "clubId",
   as: "club"
-});
+}); 
 
 Club.hasMany(Event, {
   sourceKey: "id",
@@ -66,18 +75,31 @@ Club.hasMany(Event, {
 });
 
 //Drawing a one-to-many relationship from Address to Event 
-Address.hasOne(Event, {
+Address.hasMany(Event, {
   sourceKey: "id",
-  foreignKey: "eventId",
-  as: "event"
+  foreignKey: "addressId",
+  as: "events"   
 });
 
 Event.belongsTo(Address, {
   targetKey: "id",
-  foreignKey: "eventId",
-  as: "address"
-})
+  foreignKey: "addressId",
+  as: "address" 
+});
 
+Image.hasMany(Event, {
+  sourceKey: "id",
+  foreignKey: "imageId",
+  as: "events"
+});
+  
+Event.belongsTo(Image, {
+  targetKey: "id",
+  foreignKey: "imageId",
+  as: "image"
+});  
+
+ 
 Event.sync().then(() => {})
 
-export default Event
+export default Event 

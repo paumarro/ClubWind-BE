@@ -1,7 +1,5 @@
 import { DataTypes } from 'sequelize'
 import { sequalize } from '../db'
-import Club from './clubs';
-import Event from './events';
 
 
 export const Image = sequalize.define('Image', {
@@ -27,40 +25,15 @@ export const Image = sequalize.define('Image', {
     type: DataTypes.TEXT, 
     allowNull: true,
   },
-  clubId: {
-    type: DataTypes.INTEGER,
-    allowNull: true
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
   },
-  eventId: {
-    type: DataTypes.INTEGER,
-    allowNull: true
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
   }
 });
-
-Club.hasMany(Image, {
-  sourceKey: "id",
-  foreignKey: "clubId",
-  as: "images"
-});
-
-Image.belongsTo(Club, {
-  targetKey: "id",
-  foreignKey: "clubId",
-  as: "club"  
-});
-
-Event.hasMany(Image, {
-  sourceKey: "id",
-  foreignKey: "eventId",
-  as: "images"
-});
-
-Image.belongsTo(Event, {
-  targetKey: "id",
-  foreignKey: "eventId",
-  as: "event"  
-});
-
 
 
 Image.sync().then(() => {})

@@ -50,6 +50,45 @@ export const validateMember = [
 
 ];
 
+
+export const validateUpdateMember = [
+
+  body('first_name').isLength({ max: 100 }).isString().optional(),
+    
+  body('last_name').isLength({ max: 100 }).isString().optional(),
+
+  body('date_of_entry').isDate().optional(),
+
+  body('email').isEmail().normalizeEmail().optional(),
+
+  body('gender').isLength({ max: 1 }).isString().optional(),
+
+  body('phone').isMobilePhone("any").optional(), 
+
+  body('birthday').isDate().optional(),
+
+  body('address.country').isString().isLength({ max: 100 }).optional(),
+
+  body('address.post_code').isLength({ max: 100 }).isString().optional(),
+
+  body('address.street_name').isLength({ max: 100 }).isString().optional(),
+
+  body('address.street_number').isNumeric().optional(),
+
+  body('address.floor').isLength({ max: 100}).isString().optional(),
+
+  body('address.apartment').isLength({ max: 100}).isString().optional(),
+
+  body('image.name').isLength({ max: 100 }).isString().optional(),
+
+  body('image.description').isLength({ max: 300 }).isString().optional(),
+
+  body('image.type').isLength({ max: 10 }).isString().optional(),
+
+  body('image.url').isLength({ max: 1000 }).isURL().optional(),
+
+];
+
  
 export const validateClub = [
 
@@ -65,17 +104,13 @@ export const validateEvent = [
     
   body('description').isLength({ max: 10000 }).isString().optional(),
 
-  body('is_public').isLength({ max: 400 }).isBoolean().optional(),
-
-  body('date').isDate().optional(),
+  body('is_public').isBoolean().optional(),
 
   body('start_at').isDate().optional(),
 
   body('ends_at').isDate().optional(),
 
   body('capacity').isNumeric().optional(),
-
-  body('viewer_count').isLength({ max: 100 }).isString().optional(),
 
 ];
 

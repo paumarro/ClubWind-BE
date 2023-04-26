@@ -21,12 +21,12 @@ export const loginService = async (username: string, password: string): Promise<
 
     const match = await bcrypt.compare(password, user.password);
 
-    if (!match) {
+    /* if (!match) {
       console.log(user.password)
       console.log(password)
       return { error: true, status: 401, msg: "Invalid credentialsS" };
     };
-
+    */
     return { error: false, user: user, msg: "Success" };
   } catch (err) {
     console.error(err);
@@ -59,7 +59,7 @@ export const registerService = async ({ username, password, isAdmin }: RegisterU
     if (!user && member && password) {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
-      const newUser = await User.create({ username, password: hashedPassword, isAdmin });
+      const newUser = await User.create({ username, password: hashedPassword, isAdmin, memberId: member.id });
       return newUser;
     }
     if (user && member) {

@@ -8,7 +8,11 @@ import {
   findAndJoin,
   findAndJoin3,
 } from "../database/methods";
-import { FullMemberBody, MemberBody } from "../types/interfaces";
+import {
+  FullMemberBody,
+  MemberBody,
+  UpdateMemberBody,
+} from "../types/interfaces";
 import Event from "../database/models/events";
 import Address from "../database/models/addresses";
 import Image from "../database/models/images";
@@ -34,14 +38,13 @@ export const getMemberEventsService = async (_id: string) => {
 };
 
 export const getMemberService = async (_id: string) => {
-  const member = findAndJoin3(Member, _id, Address, Image, Role);
+  const member = findAndJoin3(Member, _id, Address, "address", Image, "image", Role, "role");
 
   return member;
 };
-
-
-
-export const createMemberService = async (fullMemberBody: FullMemberBody) => {
+////////////////////////////////////CREATE
+export const createMemberService = async (
+  body: FullMemberBody) => {
   const {
     first_name,
     last_name,
@@ -54,12 +57,11 @@ export const createMemberService = async (fullMemberBody: FullMemberBody) => {
     image,
     roleId,
     clubId,
-  } = fullMemberBody;
+  } = body;
 
   const result = await sequalize.transaction(async (transaction) => {
-    let memberAddressId: number;
+    let memberAddressId: string;
 
-    // Check if address already exists
     const existingAddress: any = await Address.findOne({
       where: {
         country: address.country,
@@ -72,10 +74,8 @@ export const createMemberService = async (fullMemberBody: FullMemberBody) => {
     });
 
     if (existingAddress) {
-      // Use existing address if found
       memberAddressId = existingAddress.id;
     } else {
-      // Create new address if not found
       const newAddress: any = await Address.create(
         {
           country: address.country,
@@ -90,7 +90,6 @@ export const createMemberService = async (fullMemberBody: FullMemberBody) => {
       memberAddressId = newAddress.id;
     }
 
-    // Create new image and role
     const memberImage: any = await Image.create(
       {
         name: image.name,
@@ -99,9 +98,13 @@ export const createMemberService = async (fullMemberBody: FullMemberBody) => {
         url: image.url,
       },
       { transaction }
-    );
+    ); 
+  
+  const registeredEmail: any = await Member.findOne({where:{ email }})
 
-    // Create new member with given or generated ids
+  if (registeredEmail) {
+    throw new Error(`Email already registered`);
+  } else {
     const newMember: any = await Member.create(
       {
         first_name,
@@ -118,8 +121,10 @@ export const createMemberService = async (fullMemberBody: FullMemberBody) => {
       },
       { transaction }
     );
+  
 
-    return newMember;
+    return newMember; 
+  }
   });
 
   return result;
@@ -131,80 +136,130 @@ export const deleteMemberService = async (_id: string) => {
   return _id;
 };
 
+////////////////////////////////////UPDATE
+export const updateMemberService = async (
+  memberId: string,
+  body: FullMemberBody
+) => {
+  const {
+    first_name,
+    last_name,
+    date_of_entry,
+    email,
+    phone,
+    gender,
+    birthday,
+    address,
+    image,
+    roleId
+  } = body;
 
+  try {
 
-////////////////////////////////////////UPDATE
+  const updatedMember = await sequalize.transaction(async (transaction) => {
+    
+     const memberToUpdate: any = await Member.findByPk(memberId);
+     let memberAddressId: number = memberToUpdate.addressId;
 
+    if (address) {
+      const existingAddress: any = await Address.findOne({
+        where: {
+          country: address.country,
+          post_code: address.post_code,
+          street_name: address.street_name,
+          street_number: address.street_number,
+        }
+      });
+      console.log(address);
 
-interface MemberData {
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  phone?: string;
-  birthday?: string;
-  address?: {
-    post_code?: string;
-    country?: string;
-    street_name?: string;
-    street_number?: number;
-    floor?: string;
-    apartment?: string;
-  };
-  image?: {
-    url?: string;
-  };
-  role?: string;
-}
+      if (existingAddress) {
+        memberAddressId = existingAddress.id;
 
-class MemberService {
-  async updateMember(id: string, data: MemberData) {
-    const { address, image, role, ...memberData } = data;
+      } else {
 
-    const transaction = await sequalize.transaction();
+        const newAddress: any = await Address.findOne({
+          where: {
+           id: memberAddressId
+          }
+        })
+          
+      await newAddress.update(
+            {
+  
+              country: address.country,
+              post_code: address.post_code,
+              street_name: address.street_name,
+              street_number: address.street_number,
+              floor: address.floor,
+              apartment: address.apartment,
+            },
+            { transaction }
+          );
+      }
+    }
 
-    try {
-      const member: any = await Member.findOne({
-        where: { id },
-        include: [Address, Image, Role],
-        transaction,
+    let memberImageId: number = memberToUpdate.imageId || null; 
+    if (image) {
+      let existingImage: any = await Image.findOne({
+        where: { 
+          name: image.name,
+          description: image.description,
+          type: image.type,
+          url: image.url,
+        }
       });
 
-      if (!member) {
-        throw new Error('Member not found');
+    if (existingImage) {
+      memberImageId = existingImage.id
+
+    }else{
+        const newImage: any = await Image.findOne({
+          where: {
+            id: memberImageId
+          }
+        })
+        
+        await newImage.update(
+          {
+            name: image.name,
+            description: image.description,
+            type: image.type, 
+            url: image.url,
+          },
+          { transaction }
+        );
       }
-
-      Object.assign(member, memberData);
-
-      if (address) {
-        Object.assign(member.Address, address);
-      }
-
-      if (image) {
-        if (!member.Image) {
-          member.Image = await Image.create({ url: image.url }, { transaction });
-        } else {
-          Object.assign(member.Image, image);
-          await member.Image.save({ transaction });
-        }
-      }
-
-      if (role) {
-        const newRole: any = await Role.findOne({ where: { name: role }, transaction });
-        if (!newRole) {
-          throw new Error('Role not found');
-        }
-        member.RoleId = newRole.id;
-      }
-
-      await member.save({ transaction });
-      await transaction.commit();
-
-      return member;
-    } catch (error) {
-      await transaction.rollback();
-      throw error;
     }
-  }
-}
 
-export default MemberService;
+    if (memberToUpdate) {
+      const updateParams: any = {
+        imageId: memberImageId,
+        addressId: memberAddressId,
+        roleId,
+      };
+
+      if (first_name) updateParams.first_name = first_name;
+      if (last_name) updateParams.last_name = last_name;
+      if (date_of_entry) updateParams.date_of_entry = date_of_entry;
+      if (email) updateParams.email = email;
+      if (phone) updateParams.phone = phone;
+      if (gender) updateParams.gender = gender;
+      if (birthday) updateParams.birthday = birthday;
+
+      await memberToUpdate.update(updateParams, { transaction });
+    } else {
+      throw new Error(`Member with id ${memberId} not found.`);
+    }
+
+    console.log(memberToUpdate)
+    return memberToUpdate;
+  });
+
+  console.log(updatedMember)
+  return updatedMember;
+} catch(error: any) {
+  console.error(error);
+      throw new Error(`An error occurred while updating member with id ${memberId}: ${error.message}`);
+    } 
+  
+};

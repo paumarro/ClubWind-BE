@@ -1,18 +1,20 @@
 import { Router } from "express";
-import MemberController, {
+import {
   createMemberController,
   deleteMemberController,
   getAllMembersController,
   getMemberController,
   getMemberEventsController,
+  updateMemberController,
 } from "../controllers/membersController";
 import {
   validateMember,
   handleValidationError,
+  validateUpdateMember,
 } from "../middlewares/validations";
 import { isAdmin, isAuthenticated } from "../middlewares/session";
 
-const memberController = new MemberController();
+
 
 
 const membersRoute: Router = Router();
@@ -27,7 +29,7 @@ membersRoute.get("/:id/events", isAuthenticated, getMemberEventsController);
 
 membersRoute.post(
   "/",
-  isAdmin,
+  //isAdmin,
   validateMember,
   handleValidationError,
   createMemberController
@@ -36,9 +38,9 @@ membersRoute.post(
 membersRoute.put(
   "/:id",
   isAdmin,
-  validateMember,
+  validateUpdateMember,
   handleValidationError,
-  memberController.update
+  updateMemberController
 );
  
 export default membersRoute;

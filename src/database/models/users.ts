@@ -40,3 +40,4 @@ export const User = sequalize.define('User', {
   User.belongsTo(Member, { foreignKey: 'memberId' });
 
 User.sync().then(() => {}) 
+ 

@@ -26,19 +26,20 @@ export const Member = sequalize.define('Member', {
   },
   date_of_entry: {
     type: DataTypes.DATE,
-    allowNull: false,
+    allowNull: true,
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: false, 
+    allowNull: false,
+    unique: true 
   },
   gender: {
     type: DataTypes.CHAR(1),
-    allowNull: false,
+    allowNull: true,
   },
   phone: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   birthday: {
     type: DataTypes.DATE,
@@ -64,7 +65,7 @@ export const Member = sequalize.define('Member', {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW
   },
-  updatedAt: {
+  updatedAt: { 
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW
   }
@@ -74,11 +75,11 @@ export const Member = sequalize.define('Member', {
 //Drawing many to many relationships
 //This already added the fk ids to the bridge table (Club_Member)
 Member.belongsToMany(Club, {
-  through: "Club_Member"
+  through: "ClubMember"
 });
 
 Club.belongsToMany(Member, {
-  through: "Club_Member"
+  through: "ClubMember"
 });
 
 Member.belongsToMany(Event, {
@@ -93,16 +94,17 @@ Event.belongsToMany(Member, {
   foreignKey: "eventId"
 });
 
-Member.hasOne(Image, {
-  sourceKey: "id",
-  foreignKey: "memberId"
-});
-
-Image.belongsTo(Member, {
+Member.belongsTo(Image, {
   targetKey: "id",
-  foreignKey: "memberId",
-  as: "member"  
+  foreignKey: "imageId",
+  as: "image"
 });
+ 
+Image.hasMany(Member, {
+  sourceKey: "id",
+  foreignKey: "imageId",
+  as: "member"  
+});  
 
 Address.hasMany(Member, {
   sourceKey: "id",
@@ -112,7 +114,8 @@ Address.hasMany(Member, {
 
 Member.belongsTo(Address, {
   targetKey: "id",
-  foreignKey: "addressId"
+  foreignKey: "addressId",
+  as: "address"
 })
 
 Role.hasMany(Member, {
@@ -123,7 +126,8 @@ Role.hasMany(Member, {
 
 Member.belongsTo(Role, {
   targetKey: "id",
-  foreignKey: "roleId"
+  foreignKey: "roleId",
+  as: "role"
 })
 
 Member.sync().then(() => {})

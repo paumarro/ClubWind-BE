@@ -1,16 +1,13 @@
 import { NextFunction, Request, Response } from 'express'
-import MemberService, {
+import {
   createMemberService,
   deleteMemberService,
   getAllMemberService,
   getMemberEventsService,
   getMemberService,
   searchAllMemberService as searchAllMembersService,
+  updateMemberService,
 } from '../services/membersServices'
-
-
-
-
 
 export const getAllMembersController = async (
   rq: Request,
@@ -61,20 +58,22 @@ export const getMemberEventsController = async (
   }
 };
 
+
 export const createMemberController = async (
   rq: Request,
   re: Response,
 ) => {
   
   try {
-    const _id = await createMemberService(rq.body)
+    const member = await createMemberService(rq.body)
 
-    return re.status(201).json({ msg: 'Member was created', _id })
+    return re.status(201).json({ msg: 'Member was created', member })
   } catch (error) {
     console.error(error)
     return re.status(500).json({ msg: 'Internal Server Error' })
   }
 };
+
 
 export const deleteMemberController = async (
   rq: Request,
@@ -90,37 +89,15 @@ export const deleteMemberController = async (
 }
 
 
-const memberService = new MemberService();
- 
-class MemberController {
-  update(arg0: string, update: any) {
-    throw new Error("Method not implemented.");
-  }
-  async updateMember(req: Request, res: Response) {
-    const id = req.params.id;
-    const { first_name, last_name, email, phone, birthday, address, image, role } = req.body;
+export const updateMemberController = async (
+  rq: Request,
+  re: Response,
+) => {
+  try {
+    const _id = await updateMemberService(rq.params.id, rq.body)
 
-    try {
-      const updatedMember = await memberService.updateMember(id, {
-        first_name,
-        last_name,
-        email,
-        phone,
-        birthday,
-        address,
-        image,
-        role,
-      });
-      return res.status(200).json(updatedMember);
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Server Error' });
-    }
+    return re.status(201).json({ msg: 'Member was updated', _id })
+  } catch (error) {
+    re.status(500)
   }
 }
-
-export default MemberController;
-
-
-
-

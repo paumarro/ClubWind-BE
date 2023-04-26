@@ -16,6 +16,14 @@ export const Role = sequalize.define('Role', {
     description: {
       type: DataTypes.TEXT,
       allowNull: true,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
     }
   });
 

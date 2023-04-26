@@ -4,7 +4,10 @@
 import { sequalize } from "./db";
 import { MemberEvent } from "./models/bridge_models/members_event";
 import Member from "./models/members";
-import Event from "./models/members";
+import Event from "./models/events";
+import Address from "./models/addresses";
+import Image from "./models/images";
+import { User } from "./models/users";
 
 export const findAll = async (
   model: any,
@@ -29,16 +32,19 @@ export const findAndJoin3 = async (
   model: any,
   id: string,
   join: any,
+  alias: string,
   join2: any,
+  alias2: string,
   join3: any,
+  alias3: string,
 
 ) => {
   try {
     const result = await model.findByPk(id, {
       include: [
-        { model: join },
-        { model: join2 },
-        { model: join3 },
+        { model: join, as: alias },
+        { model: join2, as: alias2},
+        { model: join3, as: alias3 },
       ],
     });
     
@@ -76,7 +82,7 @@ export const find = async (model: any, id: string) => {
   try {
     const results = await model.findOne({
       where: {
-        id: id,
+        id,
       },
     });
 
@@ -96,13 +102,54 @@ export const create = async (model: any, data: object) => {
   }
 };
 
-export const remove = async (model: any, id: string) => {
+export const remove2 = async (model: any, id: string) => {
   try {
     await model.destroy({
       where: {
         id,
       },
     });
+  } catch (error) {
+    console.error("Error deleting the entity", error);
+  }
+};
+
+export const remove = async (model: any, id: string) => {
+  try {
+    
+    const targetedModel = await model.findOne({where:{ id}});
+    const addressId = targetedModel.addressId
+    console.log(addressId)
+    const imageId = targetedModel.imageId
+    console.log(imageId)
+    const userEmail = targetedModel.email
+    await model.destroy({where:{ id }})
+    if(addressId){
+    const entryWithSameAddress = await model.findOne({
+      where: {
+        addressId,
+      },
+    });
+    if (!entryWithSameAddress){
+      await Address.destroy({where:{id: addressId}})
+    }
+}
+if(imageId){
+    const entryWithSameImage = await model.findOne({
+      where: {
+        imageId,
+      },
+    });
+    if (!entryWithSameImage){
+      await Image.destroy({where:{id: imageId}})
+    }
+  }
+    
+    if(userEmail) {
+      User.destroy({where:{username: userEmail}})
+    }
+
+
   } catch (error) {
     console.error("Error deleting the entity", error);
   }
@@ -126,10 +173,15 @@ export const update = async (model: any, id: string, data: any) => {
 
 export const addMemberToEvent = async (eventId: string, memberId: string) => {
   try {
-    const event = (await Event.findByPk(eventId)) as any;
-    const member = (await Member.findByPk(memberId)) as any;
+    console.log(eventId)
+    console.log(memberId)
+    const event = await Event.findByPk(eventId);
+    const member = await Member.findByPk(memberId);
 
-    if (!event || !member) {
+    console.log(event)
+    console.log(member)
+
+    if (!event || !member) {  
       throw new Error("Event or member not found");
     }
 
