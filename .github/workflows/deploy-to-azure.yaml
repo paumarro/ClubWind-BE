@@ -35,3 +35,9 @@ jobs:
         app-name: ClubWind
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         images: paumarro/clubwind-be:${{ github.sha }}
+      env:
+        DB_HOST=clubwinddb.mysql.database.azure.com
+        DB_USER=cwADMIN
+        DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+        DB_NAME=ClubWindDB
+

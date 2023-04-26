@@ -7,7 +7,7 @@ services:
     environment:
       - DB_HOST=clubwinddb.mysql.database.azure.com
       - DB_USER=cwADMIN
-      - DB_PASSWORD=ClubWind123
+      - DB_PASSWORD=${{ secrets.DB_PASSWORD }}
       - DB_NAME=ClubWindDB
 
   app1:
@@ -16,8 +16,7 @@ services:
     restart: always
     environment:
       - APP_PORT=3000
-    links:
-      - db
+
 
   app2:
     build: .
@@ -27,22 +26,7 @@ services:
       - 3001:3000
     environment:
       - APP_PORT=3000
-    links:
-      - db
-
-  db:
-    image: mysql:latest
-    container_name: mysql-db-container
-    restart: always
-    environment:
-      MYSQL_DATABASE: 'ClubWindDB'
-      MYSQL_USER: 'root'
-      MYSQL_PASSWORD: 'pass'
-      MYSQL_ROOT_PASSWORD: 'pass'
-    ports:
-      - 3306:3306
-    volumes:
-      - ./data:/var/lib/mysql
+  
 
   nginx:
     image: nginx:stable-alpine
