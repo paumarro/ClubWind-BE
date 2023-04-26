@@ -21,12 +21,12 @@ export const loginService = async (username: string, password: string): Promise<
 
     const match = await bcrypt.compare(password, user.password);
 
-    /* if (!match) {
+    if (!match) {
       console.log(user.password)
       console.log(password)
       return { error: true, status: 401, msg: "Invalid credentialsS" };
     };
-    */
+    
     return { error: false, user: user, msg: "Success" };
   } catch (err) {
     console.error(err);
