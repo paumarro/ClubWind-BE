@@ -1,8 +1,14 @@
 import { Sequelize } from 'sequelize'
 
+const dbHost= "clubwinddb.mysql.database.azure.com"
+const dbName = "ClubWindDB"
+const dbUser = "cwADMIN"
+const dbPass = "ClubWind123"
+
+
 // instantiate a new Sequelize instance for the main data
-export const sequalize: Sequelize = new Sequelize('ClubWindDB', 'root', 'pass', {
-  host: 'db',
+export const sequalize: Sequelize = new Sequelize(dbName, dbUser, dbPass, {
+  host: dbHost,
   dialect: 'mysql',
   logging: false
 });
