@@ -6,23 +6,17 @@ services:
     build: .
     container_name: express-app1-container
     restart: always
+    env_file: .env
     environment:
       - PORT=3000
-      - DB_HOST
-      - DB_USER
-      - DB_PASSWORD
-      - DB_NAME
 
   app2:
     build: .
     container_name: express-app2-container
     restart: always
+    env_file: .env
     environment:
       - PORT=3000
-      - DB_HOST
-      - DB_USER
-      - DB_PASSWORD
-      - DB_NAME
 
   nginx:
     image: nginx:stable-alpine
