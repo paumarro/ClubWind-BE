@@ -1,8 +1,7 @@
-import { findAll, find, create, remove, update } from '../database/methods'
 import Member from '../database/models/members';
 import { User } from '../database/models/users'
-import { UserBody } from '../types/interfaces'
 import bcrypt from "bcrypt";
+import { RegisterUserProps } from '../types/interfaces';
 
 interface LoginResponse {
   error: boolean;
@@ -36,12 +35,6 @@ export const loginService = async (username: string, password: string): Promise<
 
 
 //Fix error handeling in try block
-interface RegisterUserProps {
-  username: string;
-  password: string;
-  isAdmin: boolean;
-}
-
 //make the username linked to the Member.email, without it needing to be the same value to remove redundncy
 export const registerService = async ({ username, password, isAdmin }: RegisterUserProps) => {
   try {

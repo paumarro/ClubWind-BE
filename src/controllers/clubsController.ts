@@ -12,7 +12,6 @@ import {
 export const searchAllClubsController = async (
     rq: Request,
     re: Response,
-    nf: NextFunction
   ) => {
     try {
     
@@ -29,7 +28,6 @@ export const searchAllClubsController = async (
 export const getAllClubsController = async (
     rq: Request,
     re: Response,
-    nf: NextFunction
 ) => {
     try {
         const results = await getAllClubsService()
@@ -45,7 +43,6 @@ export const getAllClubsController = async (
 export const getClubController = async (
     rq: Request,
     re: Response,
-    nf: NextFunction
     ) => {
     try{
         const result = await getClubService(rq.params.id)
@@ -59,7 +56,6 @@ export const getClubController = async (
 export const createClubController = async (
     rq: Request,
     re: Response,
-    nf: NextFunction
 ) => {
     try {
         const _id = await createClubService(rq.body)
@@ -73,7 +69,6 @@ export const createClubController = async (
 export const deleteClubController = async (
     rq: Request,
     re: Response,
-    nf: NextFunction
 ) => {
     try {
         const _id = deleteClubService(rq.params.id)
@@ -87,7 +82,6 @@ export const deleteClubController = async (
 export const updateClubController = async (
     rq: Request,
     re: Response,
-    nf: NextFunction
 ) => {
     try {
         const _id = updateClubService(rq.params.id, rq.body)

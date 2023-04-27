@@ -140,3 +140,10 @@ export interface ImageBody {
   url: string;
   type?: string;
 }
+
+export interface RegisterUserProps {
+  username: string;
+  password: string;
+  isAdmin: boolean;
+}
+

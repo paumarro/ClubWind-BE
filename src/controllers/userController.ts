@@ -31,16 +31,6 @@ export const loginController = async (
   }
 };
 
-interface RegisterControllerProps {
-  body: {
-    username: string;
-    password: string;
-    isAdmin: boolean;
-  };
-  session: {
-    user: any;
-  };
-}
 
 export const registerController = async (rq: Request, re: Response) => {
   try {

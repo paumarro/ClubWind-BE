@@ -59,6 +59,10 @@ export const createMemberService = async (
     clubId,
   } = body;
 
+  try {
+
+
+
   const result = await sequalize.transaction(async (transaction) => {
     let memberAddressId: string;
 
@@ -128,6 +132,10 @@ export const createMemberService = async (
   });
 
   return result;
+
+}catch(error){
+  throw new Error(`Member could not be created.`);
+  }
 };
 
 export const deleteMemberService = async (_id: string) => {
@@ -251,11 +259,9 @@ export const updateMemberService = async (
       throw new Error(`Member with id ${memberId} not found.`);
     }
 
-    console.log(memberToUpdate)
     return memberToUpdate;
   });
 
-  console.log(updatedMember)
   return updatedMember;
 } catch(error: any) {
   console.error(error);
