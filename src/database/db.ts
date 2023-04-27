@@ -2,10 +2,10 @@ import { Sequelize } from 'sequelize'
 import fs from 'fs';
 import path from 'path';
 
-const dbHost= "clubwinddb.mysql.database.azure.com"
-const dbName = "ClubWindDB"
-const dbUser = "cwADMIN"
-const dbPass = "ClubWind123"
+const dbHost = process.env.DB_HOST || "clubwinddb.mysql.database.azure.com"
+const dbName = process.env.DB_NAME || "ClubWindDB"
+const dbUser = process.env.DB_USER || "cwADMIN"
+const dbPass = process.env.DB_PASSWORD || "ClubWind123"
 
 // Load the CA certificate file provided by Azure
 const caCert = fs.readFileSync(path.resolve(__dirname,'./DigiCertGlobalRootCA.crt.pem'));
