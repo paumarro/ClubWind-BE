@@ -2,11 +2,10 @@ import { Sequelize } from 'sequelize'
 import fs from 'fs';
 import path from 'path';
 
-const dbHost = process.env.DB_HOST || "clubwinddb.mysql.database.azure.com"
-const dbName = process.env.DB_NAME || "clubWinddb"
-const dbUser = process.env.DB_USER || "cwADMIN"
-const dbPass = process.env.DB_PASSWORD
-
+const dbHost = "clubwinddb.mysql.database.azure.com"
+const dbName = "clubWinddb"
+const dbUser = "cwADMIN"
+const dbPass = "ClubWind123"
 
 console.log('DB_HOST:', process.env.DB_HOST);
 console.log('DB_USER:', process.env.DB_USER);
@@ -41,3 +40,4 @@ export const establishDBConnection = async () => {
     console.error('Unable to connect to the database:', error);
   }
 };
+ 
