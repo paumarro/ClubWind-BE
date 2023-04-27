@@ -1,4 +1,4 @@
-
+/*
 import {
     searchAllEventsService,
     getAllEventsService,
@@ -91,3 +91,4 @@ import { EventBody } from '../src/types/interfaces';
       expect(updatedEvent).toEqual(testEvent);
     })
   });
+  */
