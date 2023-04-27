@@ -27,7 +27,7 @@ app.use(
 
 let port: string | number = '3000'
 
-const server: Server = app.listen(port, async () => {
+const server: Server = app.listen(process.env.PORT || port, async () => {
   console.log(`\n  ------ Server started :${port} ------`)
 })
 

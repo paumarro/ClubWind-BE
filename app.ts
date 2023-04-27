@@ -2,9 +2,6 @@ import express, { Express, NextFunction, json, Response, Request, urlencoded } f
 import morgan from 'morgan'
 import helmet from 'helmet'
 import compression from 'compression'
-import { Session } from 'express-session'
-
-
 
 import { establishDBConnection } from './src/database/db'
 import eventsRoute from './src/routes/eventsRoute'
@@ -13,8 +10,6 @@ import clubsRoute from './src/routes/clubsRoute'
 import { limiter } from './src/middlewares/rateLimiter'
 import { sanitizeHeadersQuerysAndParams, sanitizeBodys } from './src/middlewares/sanitisation'
 import { userRoute } from './src/routes/userRoute'
-import passport from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 
 
 const session = require("express-session")
@@ -38,7 +33,6 @@ app.use(
 );
 
 
-//Authentication & Authorisation////////////////////////////////////////////////////////
 
 declare module 'express-session' {
   export interface SessionData {
