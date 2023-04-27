@@ -40,3 +40,4 @@ jobs:
         DB_USER: cwADMIN
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         DB_NAME: clubwinddb
+      

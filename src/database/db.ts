@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 const dbHost = process.env.DB_HOST || "clubwinddb.mysql.database.azure.com"
-const dbName = process.env.DB_NAME || "ClubWindDB"
+const dbName = process.env.DB_NAME || "clubWinddb"
 const dbUser = process.env.DB_USER || "cwADMIN"
 const dbPass = process.env.DB_PASSWORD
 
