@@ -29,7 +29,7 @@ jobs:
         push: true
         tags: paumarro/clubwind-be:${{ github.sha }}
 
-        - name: Deploy to Azure
+    - name: Deploy to Azure
       uses: azure/webapps-deploy@v2
       with:
         app-name: ClubWind
