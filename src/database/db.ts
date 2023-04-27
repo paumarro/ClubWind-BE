@@ -7,14 +7,8 @@ const dbName = "clubWinddb"
 const dbUser = "cwADMIN"
 const dbPass = "ClubWind123"
 
-console.log(dbHost)
-console.log(dbName)
-console.log(dbUser)
-console.log(dbPass)
-
 // CA certificate file provided by Azure
-const caCert = fs.readFileSync(path.resolve(__dirname,'./DigiCertGlobalRootCA.crt.pem'));
-
+const caCert = process.env.CERT
 export const sequalize: Sequelize = new Sequelize(dbName, dbUser, dbPass, {
   host: dbHost,
   dialect: 'mysql',

@@ -28,6 +28,8 @@ jobs:
         context: .
         push: true
         tags: paumarro/clubwind-be:${{ github.sha }}
+        env:
+          CERT: ${{secrets.CA_CERTIFICATE}}
 
     - name: Deploy to Azure
       uses: azure/webapps-deploy@v2

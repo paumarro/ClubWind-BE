@@ -24,6 +24,7 @@ USER appuser
 
 # Set the environment variable
 ENV NODE_ENV=production
+ENV CERT=CERT
 
 EXPOSE 3000
 CMD ["node", "build/server.js"]
