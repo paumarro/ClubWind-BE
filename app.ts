@@ -19,6 +19,7 @@ const session = require("express-session")
 const app: Express = express()
 
 dotenv.config();
+
 establishDBConnection()
 
 app.use(sanitizeHeadersQuerysAndParams);

@@ -6,7 +6,6 @@ services:
     build: .
     container_name: express-app1-container
     restart: always
-    env_file: .env
     environment:
       - PORT=3000
       - DB_HOST=https://clubwinddb.mysql.database.azure.com
@@ -18,7 +17,6 @@ services:
     build: .
     container_name: express-app2-container
     restart: always
-    env_file: .env
     environment:
       - PORT=3001
       - DB_HOST=https://clubwinddb.mysql.database.azure.com
