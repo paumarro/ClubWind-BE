@@ -12,7 +12,6 @@ app.use(
     err: { message: Promise<string>; status: number | PromiseLike<number> },
     req: Request,
     res: Response,
-    next: NextFunction
   ) => {
     res.locals.message = await err.message 
 

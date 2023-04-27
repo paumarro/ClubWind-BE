@@ -2,6 +2,8 @@ import express, { Express, NextFunction, json, Response, Request, urlencoded } f
 import morgan from 'morgan'
 import helmet from 'helmet'
 import compression from 'compression'
+import dotenv from 'dotenv';
+
 
 import { establishDBConnection } from './src/database/db'
 import eventsRoute from './src/routes/eventsRoute'
@@ -16,7 +18,7 @@ const session = require("express-session")
 
 const app: Express = express()
 
-
+dotenv.config();
 establishDBConnection()
 
 app.use(sanitizeHeadersQuerysAndParams);
