@@ -3,6 +3,7 @@ import morgan from 'morgan'
 import helmet from 'helmet'
 import compression from 'compression'
 import dotenv from 'dotenv';
+import cors from 'cors'
 
 
 import { establishDBConnection } from './src/database/db'
@@ -21,6 +22,8 @@ const app: Express = express()
 dotenv.config();
 
 establishDBConnection()
+
+app.use(cors({ origin: 'http://localhost:3001' }));
 
 app.use(sanitizeHeadersQuerysAndParams);
 app.use(helmet());

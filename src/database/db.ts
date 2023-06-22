@@ -2,10 +2,18 @@ import { Sequelize } from 'sequelize'
 import fs from 'fs';
 import path from 'path';
 
+/* 
 const dbHost = "clubwinddb.mysql.database.azure.com"
 const dbName = "clubWinddb"
 const dbUser = "cwADMIN"
 const dbPass = "ClubWind123"
+*/
+
+const dbHost = "127.0.0.1"
+const dbName = "ClubWindDB"
+const dbUser = "root"
+const dbPass = "pass"
+
 
 // CA certificate file provided by Azure
 const caCert = process.env.CERT
@@ -15,13 +23,14 @@ export const sequalize: Sequelize = new Sequelize(dbName, dbUser, dbPass, {
   dialectModule: require('mysql2'),
   logging: false, 
   ssl: true,
-  dialectOptions: {
+  /* dialectOptions: {
     ssl: {
       ca: caCert,
       // Uncomment the following line to enforce SSL
       // rejectUnauthorized: true
     },
   },
+  */
 });
 
 // Test the connection to the database
@@ -32,5 +41,4 @@ export const establishDBConnection = async () => {
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
-};
- 
+};  

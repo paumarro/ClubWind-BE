@@ -9,7 +9,7 @@ import {
   updateMemberService,
 } from '../services/membersServices'
 
-export const getAllMembersController = async (
+export const searchAllMembersController = async (
   rq: Request,
   re: Response,
 ) => {
@@ -17,7 +17,7 @@ export const getAllMembersController = async (
     
     if(rq.query){
     const query = rq.query
-
+    
     const results = await searchAllMembersService(query)
 
     return re.status(200).json(results)
@@ -31,6 +31,20 @@ export const getAllMembersController = async (
   }
 };
 
+export const getAllMembersController = async (
+  rq: Request,
+  re: Response,
+) => {
+  try {
+
+    const results = await getAllMemberService()
+
+    return re.status(200).json(results)
+  
+  } catch (error) {
+    re.status(500)
+  };
+}
 
 export const getMemberController = async (
   rq: Request,
@@ -87,7 +101,6 @@ export const deleteMemberController = async (
     re.status(500)
   }
 }
-
 
 export const updateMemberController = async (
   rq: Request,

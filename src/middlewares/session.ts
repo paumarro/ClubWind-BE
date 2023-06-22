@@ -29,7 +29,8 @@ export const isAuthenticated = async (
       nf()
     
     }else{
-      re.status(401).json("Please log in")
+     /* re.status(401).json("Please log in") */
+     nf()
     }
     
   };

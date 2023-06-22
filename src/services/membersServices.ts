@@ -7,6 +7,7 @@ import {
   update,
   findAndJoin,
   findAndJoin3,
+  findAndJoinAll,
 } from "../database/methods";
 import {
   FullMemberBody,
@@ -20,12 +21,14 @@ import { sequalize } from "../database/db";
 import { Role } from "../database/models/roles";
 
 export const getAllMemberService = async () => {
-  const members = findAll(Member, {});
+  console.log('hey')
+  const members = await findAndJoinAll(Member);
 
   return members;
 };
 
 export const searchAllMemberService = async (query: any) => {
+  console.log(query)
   const members = findAll(Member, query);
 
   return members;

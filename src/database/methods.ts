@@ -17,16 +17,38 @@ export const findAll = async (
 ) => {
   try {
     const options: any = {
-      where: query,
-    };
+      where: query  
+     };
 
-    const results = await model.findAll(options);
+
+     console.log(join)
+    const results = await model.findAll(options, {
+      
+      include: [
+        { model: join, as: alias },
+
+      ],
+    });
 
     return results;
   } catch (error) {
     console.error("Error finding the models", error);
   }
 };
+
+export const findAndJoinAll = async (
+  model: any,
+) => {
+  try {
+
+    const results = await model.findAll({ include: { all: true }});
+
+    return results;
+  } catch (error) {
+    console.error("Error finding the models", error);
+  }
+};
+
 
 export const findAndJoin3 = async (
   model: any,
@@ -40,6 +62,7 @@ export const findAndJoin3 = async (
 
 ) => {
   try {
+    console.log(join2)
     const result = await model.findByPk(id, {
       include: [
         { model: join, as: alias },
