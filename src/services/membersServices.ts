@@ -45,6 +45,7 @@ export const getMemberService = async (_id: string) => {
 
   return member;
 };
+
 ////////////////////////////////////CREATE
 export const createMemberService = async (
   body: FullMemberBody) => {
@@ -63,11 +64,10 @@ export const createMemberService = async (
   } = body;
 
   try {
-
-
-
+    
   const result = await sequalize.transaction(async (transaction) => {
     let memberAddressId: string;
+    let memberImageId: string;
 
     const existingAddress: any = await Address.findOne({
       where: {
@@ -97,6 +97,18 @@ export const createMemberService = async (
       memberAddressId = newAddress.id;
     }
 
+    const existingImage: any = await Image.findOne({
+      where: {
+        name: image.name,
+        url: image.url,
+        type: image.type,
+        description: image.description,
+      }
+    });
+
+    if (existingImage) {
+      memberImageId = existingImage.id;
+    } else {
     const memberImage: any = await Image.create(
       {
         name: image.name,
@@ -106,7 +118,9 @@ export const createMemberService = async (
       },
       { transaction }
     ); 
-  
+    memberImageId = memberImage.id
+    }
+ 
   const registeredEmail: any = await Member.findOne({where:{ email }})
 
   if (registeredEmail) {
@@ -121,7 +135,7 @@ export const createMemberService = async (
         phone,
         gender,
         birthday,
-        imageId: memberImage.id,
+        imageId: memberImageId,
         addressId: memberAddressId,
         roleId,
         clubId,
@@ -136,10 +150,14 @@ export const createMemberService = async (
 
   return result;
 
-}catch(error){
-  throw new Error(`Member could not be created.`);
+} catch (error: any) { //useless error message probabliy because of re.status in controller
+  if (error.name === 'SequelizeUniqueConstraintError' && error.errors[0].path === 'email') {
+    throw new Error('Email already registered.');
+  } else {
+    throw new Error('Member could not be created.');
   }
-};
+}
+}
 
 export const deleteMemberService = async (_id: string) => {
   remove(Member, _id);
@@ -271,4 +289,4 @@ export const updateMemberService = async (
       throw new Error(`An error occurred while updating member with id ${memberId}: ${error.message}`);
     } 
   
-};
+};  

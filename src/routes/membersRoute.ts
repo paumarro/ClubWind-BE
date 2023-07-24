@@ -13,6 +13,7 @@ import {
   validateUpdateMember,
 } from "../middlewares/validations";
 import { isAdmin, isAuthenticated } from "../middlewares/session";
+import { upload } from "../middlewares/multer";
 
 
 
@@ -23,21 +24,22 @@ membersRoute.get("/", isAuthenticated, getAllMembersController);
 
 membersRoute.get("/:id", getMemberController);
 
-membersRoute.delete("/:id", isAdmin, deleteMemberController);
+membersRoute.delete("/:id", /*isAdmin,*/ deleteMemberController);
 
 membersRoute.get("/:id/events", isAuthenticated, getMemberEventsController);
 
 membersRoute.post(
   "/",
   //isAdmin,
-  validateMember,
-  handleValidationError,
-  createMemberController
+  //validateMember,
+  upload.single('image'),
+  //handleValidationError,
+  createMemberController  
 );
 
 membersRoute.put(
   "/:id",
-  isAdmin,
+  //isAdmin,
   validateUpdateMember,
   handleValidationError,
   updateMemberController

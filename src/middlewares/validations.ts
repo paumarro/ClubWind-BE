@@ -5,48 +5,49 @@ export const handleValidationError = (req: Request, res: Response, nf: NextFunct
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(500).json({ errors: errors.array() });
+      console.log('valiation error')
+      return res.status(500).json(`validation error ${ {errors: errors.array()} }`);
     }
 
-    nf() 
+    nf()  
 };
 
 
-export const validateMember = [
+export const validateMember = [ //allOptional for development purposes
 
-  body('first_name').isLength({ max: 100 }).isString().notEmpty(),
+  body('first_name').isLength({ max: 100 }).isString().optional(),//.notEmpty(),
     
-  body('last_name').isLength({ max: 100 }).isString().notEmpty(),
+  body('last_name').isLength({ max: 100 }).isString().optional(),//.notEmpty(),
 
-  body('date_of_entry').isDate().notEmpty(),
+  body('date_of_entry').isDate().optional(),//.notEmpty(),
 
-  body('email').isEmail().normalizeEmail().notEmpty(),
+  body('email').isEmail().normalizeEmail().optional(),//.notEmpty(),
 
-  body('gender').isLength({ max: 1 }).isString().notEmpty(),
+  body('gender').isLength({ max: 1 }).isString().optional(),//.notEmpty(),
 
-  body('phone').isMobilePhone("any").notEmpty(), 
+  body('phone').isMobilePhone("any").optional(),//.notEmpty(), 
 
-  body('birthday').isDate().notEmpty(),
+  body('birthday').isDate().optional(),//.notEmpty(),
 
-  body('address.country').notEmpty().notEmpty(),
+  body('address.country').optional(),//.notEmpty().optional(),//.notEmpty(),
 
-  body('address.post_code').isLength({ max: 100 }).isString().notEmpty(),
+  body('address.post_code').isLength({ max: 100 }).isString().optional(),//.notEmpty(),
 
-  body('address.street_name').isLength({ max: 100 }).isString().notEmpty(),
+  body('address.street_name').isLength({ max: 100 }).isString().optional(),//.notEmpty(),
 
-  body('address.street_number').isNumeric().notEmpty(),
+  body('address.street_number').isNumeric().optional(),//.notEmpty(),
 
-  body('address.floor').isLength({ max: 100}).isString(),
+  body('address.floor').isLength({ max: 100}).isString().optional(),
 
-  body('address.apartment').isLength({ max: 100}).isString(),
+  body('address.apartment').isLength({ max: 100}).isString().optional(),
 
-  body('image.name').isLength({ max: 100 }).isString().notEmpty(),
+  body('image.name').isLength({ max: 100 }).isString().optional(),
 
-  body('image.description').isLength({ max: 300 }).isString().notEmpty(),
+  body('image.description').isLength({ max: 300 }).isString().optional(),
 
-  body('image.type').isLength({ max: 10 }).isString().notEmpty(),
+  body('image.type').isLength({ max: 10 }).isString().optional(),
 
-  body('image.url').isLength({ max: 1000 }).isURL().notEmpty(),
+  body('image.url').isLength({ max: 1000 }).isURL().optional(),
 
 ];
 
@@ -83,9 +84,9 @@ export const validateUpdateMember = [
 
   body('image.description').isLength({ max: 300 }).isString().optional(),
 
-  body('image.type').isLength({ max: 10 }).isString().optional(),
+  body('image.type').isLength({ max: 50 }).isString().optional(),
 
-  body('image.url').isLength({ max: 1000 }).isURL().optional(),
+  body('image.url').isLength({ max: 200 }).isString().optional(),
 
 ];
 
