@@ -6,7 +6,8 @@ export const handleValidationError = (req: Request, res: Response, nf: NextFunct
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       console.log('valiation error')
-      return res.status(500).json(`validation error ${ {errors: errors.array()} }`);
+      const errorsString = JSON.stringify({ errors: errors.array() });
+      return res.status(500).json(`validation error ${errorsString}`);
     }
 
     nf()  
