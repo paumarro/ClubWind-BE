@@ -1,38 +1,17 @@
-version: '3'
-
+version: '3.8'
 services:
-
-  app1:
-    build: .
-    container_name: express-app1-container
-    restart: always
+  mysql-db:
+    image: mysql:latest
     environment:
-      - PORT=3000
-      - DB_HOST=clubwinddb.mysql.database.azure.com
-      - DB_USER=cwADMIN
-      - DB_PASSWORD=ClubWind123
-      - DB_NAME=clubwinddb
-
-  app2:
-    build: .
-    container_name: express-app2-container
-    restart: always
-    environment:
-      - PORT=3001
-      - DB_HOST=clubwinddb.mysql.database.azure.com
-      - DB_USER=cwADMIN
-      - DB_PASSWORD=ClubWind123
-      - DB_NAME=clubwinddb
-
-  nginx:
-    image: nginx:stable-alpine
-    container_name: ReverseProxy-Loadbalancer-container
-    restart: always
+      MYSQL_ROOT_PASSWORD: mysecretpassword
+      MYSQL_DATABASE: ClubWindDB
+      MYSQL_USER: cwADMIN
+      MYSQL_PASSWORD: ClubWind123
     ports:
-      - 80:80
+      - "3306:3306"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - /data/nginx/cache
-    depends_on:
-      - app1
-      - app2
+      - mysql-data:/var/lib/mysql
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
