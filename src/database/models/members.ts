@@ -18,11 +18,11 @@ export const Member = sequalize.define('Member', {
   },
   first_name: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   last_name: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   date_of_entry: {
     type: DataTypes.DATE,
@@ -30,7 +30,7 @@ export const Member = sequalize.define('Member', {
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
     unique: true 
   },
   gender: {
@@ -47,15 +47,15 @@ export const Member = sequalize.define('Member', {
   },
   addressId: {                    
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: true
   },
   roleId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   clubId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   imageId: {
     type: DataTypes.INTEGER,
@@ -133,3 +133,65 @@ Member.belongsTo(Role, {
 Member.sync().then(() => {})
 
 export default Member
+
+// Add test Comedy Club and Comedian
+async function createTestData() {
+  try {
+    const testComedyClub = {
+      name: 'Test Comedy Club',
+      description: 'A test comedy club for stand-up comedians.',
+      };
+
+    const testAddress = {
+      post_code: '10001',
+      country: 'USA',
+      street_name: '5th Avenue',
+      street_number: 1,
+      floor: '1st',
+      apartment: '101'
+    };
+      
+      const testMember = {
+      first_name: 'Test',
+      last_name: 'Testman',
+      email: 'testman@example.com',
+      addressId: 1, 
+      roleId: 3,
+      clubId: 1,
+      };
+      
+      const [addressInstance, addressCreated]: any = await Address.findOrCreate({
+      where: { post_code: testAddress.post_code },
+      defaults: testAddress,
+      });
+      
+      if (addressCreated) {
+        console.log(`Club ${testComedyClub.name} created.`);
+      }
+      const [clubInstance, clubCreated]: any = await Club.findOrCreate({
+      where: { name: testComedyClub.name },
+      defaults: testComedyClub,
+      });
+      
+      if (clubCreated) {
+        console.log(`Club ${testComedyClub.name} created.`);
+      }
+      
+      const [memberInstance, memberCreated] = await Member.findOrCreate({
+      where: { email: testMember.email },
+      defaults: {
+      ...testMember,
+      clubId: clubInstance.id,
+      },
+      });
+      
+      if (memberCreated) {
+      console.log(`Member ${testMember.first_name} ${testMember.last_name} created.`);
+      }
+  } catch (error) {
+    console.error('Failed to create test data:', error);
+  }
+}
+ 
+  
+  createTestData();
