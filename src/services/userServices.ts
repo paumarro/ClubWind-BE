@@ -39,31 +39,44 @@ export const loginService = async (username: string, password: string): Promise<
 export const registerService = async ({ username, password, isAdmin }: RegisterUserProps) => {
   try {
     if (!password) {
-      throw new Error('Please choose a password');
+      throw new Error('Password is required.');
     }
 
     const member: any = await Member.findOne({ where: { email: username } });
-    let user: any = await User.findOne({ where: { username: username } });
+    if (!member) {
+      throw new Error('A member with this email does not exist.');
+    }
+
+    let user: any = await User.findOne({ where: { memberId: member.id } });
+    if (user) {
+      throw new Error('A user for this member already exists.');
+    }
 
     if (isAdmin && member.roleId !== 3) {
-      throw new Error('Cannot set isAdmin to true');
-    };
+      throw new Error('Only members with a specific role can be admins.');
+    }
 
-    if (!user && member && password) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
-      const newUser = await User.create({ username, password: hashedPassword, isAdmin, memberId: member.id });
-      return newUser;
-    }
-    if (user && member) {
-      throw new Error('This email address is already registered');
-    }
-    if (!member) {
-      throw new Error('Invalid credentials');
-    }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const newUser = await User.create({
+      username, // This is still required for login purposes
+      password: hashedPassword,
+      isAdmin,
+      memberId: member.id
+    });
+
+    return { error: false, msg: "Registration successful", newUser };
+
   } catch (error) {
-    throw new Error('Registration not possible');
+    // Correctly type-check the error before accessing its properties
+    if (error instanceof Error) {
+      console.error(error.message);
+      return { error: true, msg: error.message };
+    } else {
+      // Handle cases where the error might not be an instance of Error
+      console.error("An unexpected error occurred");
+      return { error: true, msg: "An unexpected error occurred" };
+    }
   }
 };
-
 

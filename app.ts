@@ -5,7 +5,6 @@ import compression from 'compression'
 import dotenv from 'dotenv';
 import cors from 'cors'
 
-
 import { establishDBConnection } from './src/database/db'
 import eventsRoute from './src/routes/eventsRoute'
 import membersRoute from './src/routes/membersRoute'
@@ -13,9 +12,8 @@ import clubsRoute from './src/routes/clubsRoute'
 import { limiter } from './src/middlewares/rateLimiter'
 import { sanitizeHeadersQuerysAndParams, sanitizeBodys } from './src/middlewares/sanitisation'
 import { userRoute } from './src/routes/userRoute'
+import session from "express-session";
 
-
-const session = require("express-session")
 
 const app: Express = express()
 

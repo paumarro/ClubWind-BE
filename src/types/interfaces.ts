@@ -8,7 +8,7 @@ export interface FullMemberBody {
   birthday: string;
   address: {
     post_code: string;
-    country: string;
+    country?: string;
     street_name: string;
     street_number: number;
     floor?: string;
@@ -34,7 +34,7 @@ export interface FullEventBody {
   capacity: number;
   address: {
     post_code: string;
-    country: string;
+    country?: string;
     street_name: string;
     street_number: number;
     floor?: string;
@@ -126,7 +126,7 @@ export interface UserBody {
 export interface AddressBody {
   _id: number;
   post_code: string;
-  country: string;
+  country?: string;
   street_name: string;
   street_number: number;
   floor?: string;

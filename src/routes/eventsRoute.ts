@@ -17,7 +17,7 @@ eventsRoute.get("/", isAuthenticated, getAllEventsController);
 
 eventsRoute.get("/:id", isAuthenticated, getEventController);
 
-eventsRoute.post("/", isAdmin, validateEvent, createEventController);
+eventsRoute.post("/", /*isAdmin, */ validateEvent, createEventController);
 
 eventsRoute.delete("/:id", isAuthenticated, deleteEventController);
 

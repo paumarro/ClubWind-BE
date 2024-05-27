@@ -39,7 +39,7 @@ export const registerController = async (rq: Request, re: Response) => {
     rq.session.user = newUser;
     return re.status(200).json({ msg: "User created" });
   } catch (error: any) {
-
+  
       return re.status(500).json({ msg: error.message });
   }
 };

@@ -7,7 +7,6 @@ import {
   update,
   findAndJoin,
   findAndJoin3,
-  findAndJoinAll,
 } from "../database/methods";
 import {
   FullMemberBody,
@@ -21,14 +20,12 @@ import { sequalize } from "../database/db";
 import { Role } from "../database/models/roles";
 
 export const getAllMemberService = async () => {
-  console.log('hey')
-  const members = await findAndJoinAll(Member);
+  const members = findAll(Member, {});
 
   return members;
 };
 
 export const searchAllMemberService = async (query: any) => {
-  console.log(query)
   const members = findAll(Member, query);
 
   return members;
@@ -45,7 +42,6 @@ export const getMemberService = async (_id: string) => {
 
   return member;
 };
-
 ////////////////////////////////////CREATE
 export const createMemberService = async (
   body: FullMemberBody) => {
@@ -64,19 +60,20 @@ export const createMemberService = async (
   } = body;
 
   try {
-    
+
+
+
   const result = await sequalize.transaction(async (transaction) => {
     let memberAddressId: string;
-    let memberImageId: string;
 
     const existingAddress: any = await Address.findOne({
       where: {
-        country: address.country,
         post_code: address.post_code,
         street_name: address.street_name,
         street_number: address.street_number,
         floor: address.floor,
         apartment: address.apartment,
+        country: address.country,
       }
     });
 
@@ -97,30 +94,16 @@ export const createMemberService = async (
       memberAddressId = newAddress.id;
     }
 
-    const existingImage: any = await Image.findOne({
-      where: {
-        name: image.name,
-        url: image.url,
-        type: image.type,
-        description: image.description,
-      }
-    });
-
-    if (existingImage) {
-      memberImageId = existingImage.id;
-    } else {
     const memberImage: any = await Image.create(
       {
         name: image.name,
         description: image.description,
         type: image.type,
-        url: image.url,
+        url: image.url, 
       },
       { transaction }
     ); 
-    memberImageId = memberImage.id
-    }
- 
+  
   const registeredEmail: any = await Member.findOne({where:{ email }})
 
   if (registeredEmail) {
@@ -135,7 +118,7 @@ export const createMemberService = async (
         phone,
         gender,
         birthday,
-        imageId: memberImageId,
+        imageId: memberImage.id,
         addressId: memberAddressId,
         roleId,
         clubId,
@@ -150,14 +133,13 @@ export const createMemberService = async (
 
   return result;
 
-} catch (error: any) { //useless error message probabliy because of re.status in controller
-  if (error.name === 'SequelizeUniqueConstraintError' && error.errors[0].path === 'email') {
-    throw new Error('Email already registered.');
-  } else {
-    throw new Error('Member could not be created.');
-  }
+} catch (error) {
+  const errorMessage = (error as Error).message;
+  console.error("Transaction failed", errorMessage);
+  throw new Error(`Member could not be created. Reason: ${errorMessage}`);
 }
-}
+
+};
 
 export const deleteMemberService = async (_id: string) => {
   remove(Member, _id);
@@ -289,4 +271,4 @@ export const updateMemberService = async (
       throw new Error(`An error occurred while updating member with id ${memberId}: ${error.message}`);
     } 
   
-};  
+};

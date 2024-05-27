@@ -80,7 +80,7 @@ export const createMemberController = async (
 ) => {
   
   try {
-    console.log(rq.body)
+    console.log("Request body:" + rq.body)
     const member = await createMemberService(rq.body)
 
     return re.status(201).json({ msg: 'Member was created', member })
