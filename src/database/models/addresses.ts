@@ -14,7 +14,7 @@ export const Address = sequalize.define('Address', {
       },
     country: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       },
     street_name: {
         type: DataTypes.STRING,
@@ -26,11 +26,11 @@ export const Address = sequalize.define('Address', {
       },
     floor: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     apartment: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       },
       createdAt: {
         type: DataTypes.DATE,
